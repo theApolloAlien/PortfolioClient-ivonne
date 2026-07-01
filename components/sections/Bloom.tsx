@@ -5,8 +5,10 @@ import { GlassCard } from "@/components/ui/GlassCard";
 
 /* Bloom — "The fuller picture": a pinned, scroll-scrubbed stage. One CSS var
    --p (0..1) drives the gathered bouquet opening, the descending frosted disc,
-   and the four facet cards staggering in. Reduced-motion or ≤1024px → static
-   fallback (bouquet on top, cards stacked). Transforms/opacity only. */
+   and the facet cards. Desktop frames the four cards in the corners (each fades
+   in). Phones/tablets (<=1024px) keep the pinned scrub but present the cards
+   centered, cross-fading in sequence (--cband) so each stays readable. Only
+   reduced-motion falls back to the fully static stacked layout. */
 
 const A = "/florals/real/";
 
@@ -46,7 +48,7 @@ const FACETS = [
   },
 ];
 
-type Pos = { left?: string; right?: string; top?: string; bottom?: string; center?: boolean };
+type Pos = { left?: string; right?: string; top?: string; bottom?: string };
 const POS: Pos[] = [
   { left: "var(--bx)", top: "var(--bytop)" },
   { right: "var(--bx)", top: "var(--bytop)" },
@@ -124,10 +126,12 @@ export function Bloom() {
       raf = requestAnimationFrame(compute);
     };
     const setup = () => {
-      const stack = mqReduce.matches || mqNarrow.matches;
-      sec.classList.toggle("bloom--static", stack);
+      const reduce = mqReduce.matches;
+      const narrow = mqNarrow.matches;
+      sec.classList.toggle("bloom--static", reduce);
+      sec.classList.toggle("bloom--mobile", narrow && !reduce);
       window.removeEventListener("scroll", onScroll);
-      if (stack) {
+      if (reduce) {
         sec.style.setProperty("--p", "1");
       } else {
         window.addEventListener("scroll", onScroll, { passive: true });
@@ -164,17 +168,19 @@ export function Bloom() {
 
         <div className="bloom__cards">
           {FACETS.map((f, i) => {
+            // Desktop: each card fades in (--co) and holds. Mobile: each card
+            // cross-fades in then out (--cband) so they appear one at a time.
             const co = `clamp(0, calc((var(--p) - ${i * 0.12 + 0.06}) / 0.34), 1)`;
-            const base = POS[i].center ? "translateX(-50%) " : "";
+            const a = (0.22 + i * 0.19).toFixed(2);
+            const c = (i === 3 ? 1.3 : 0.22 + i * 0.19 + 0.24).toFixed(2);
+            const cband = `min(clamp(0, calc((var(--p) - ${a}) / 0.05), 1), clamp(0, calc((${c} - var(--p)) / 0.05), 1))`;
             const style: CSSVars = {
               "--co": co,
-              left: POS[i].left,
-              right: POS[i].right,
-              top: POS[i].top,
-              bottom: POS[i].bottom,
-              opacity: "var(--co)",
-              transform: `${base}translateY(calc((1 - var(--co)) * 26px))`,
-              filter: "blur(calc((1 - var(--co)) * 5px))",
+              "--cband": cband,
+              "--pl": POS[i].left ?? "auto",
+              "--pr": POS[i].right ?? "auto",
+              "--pt": POS[i].top ?? "auto",
+              "--pb": POS[i].bottom ?? "auto",
             };
             return (
               <div key={f.n} className="bloom__card" style={style}>

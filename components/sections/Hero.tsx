@@ -8,7 +8,9 @@ import { Petals } from "@/components/motion/Petals";
 
 /* Hero — full-viewport, framed by two asymmetric edge-anchored flower clusters
    (3 depth layers). Idle sway + rAF-lerped pointer parallax + scroll part-out,
-   all transform/opacity. Reduced-motion → flowers rest in final positions. */
+   all transform/opacity. Reduced-motion → flowers rest in final positions.
+   On phones (<=760px) a curated bottom-corner arrangement replaces the wide
+   desktop clusters so the frame stays lush without crowding the headline. */
 
 const A = "/florals/real/";
 
@@ -51,9 +53,24 @@ const FLOWERS: Flower[] = [
   { side: "r", src: "chrysanthemum-yellow", layer: "back", w: "19vh", pos: { right: "-14.5vh", top: "60.3vh" }, rot: -55, par: 11, dx: 145, dy: 50, delay: 0.22, dur: 7.7, sway: "50% 62%" },
 ];
 
+// Phone arrangement: two lush bottom-corner clusters (whites lead, pinks fill,
+// small saturated accents). Every bloom is bottom-anchored so stems run off the
+// bottom edge; a base fade mask (.hero-fl--m img) guarantees no bare stem shows.
+const MOBILE_FLOWERS: Flower[] = [
+  // left corner
+  { side: "l", src: "peony-white", layer: "front", w: "35vh", pos: { left: "-20vw", bottom: "-7vh" }, rot: -8, par: 12, dx: -120, dy: 60, delay: 0.02, dur: 7.2, lead: true },
+  { side: "l", src: "camellia-pink", layer: "mid", w: "23vh", pos: { left: "4vw", bottom: "-9vh" }, rot: 16, par: 16, dx: -140, dy: 70, delay: 0.12, dur: 6.8 },
+  { side: "l", src: "hellebore-pink", layer: "back", w: "17vh", pos: { left: "-7vw", bottom: "15vh" }, rot: 40, par: 10, dx: -110, dy: 50, delay: 0.2, dur: 8.0 },
+  // right corner
+  { side: "r", src: "peony-white", layer: "front", w: "32vh", pos: { right: "-19vw", bottom: "-6vh" }, rot: 8, par: 12, dx: 120, dy: 58, delay: 0.05, dur: 7.5, lead: true },
+  { side: "r", src: "camellia-pink", layer: "back", w: "21vh", pos: { right: "3vw", bottom: "-2vh" }, rot: -16, par: 9, dx: 130, dy: 52, delay: 0.18, dur: 7.9 },
+  { side: "r", src: "dahlia-red", layer: "mid", w: "16vh", pos: { right: "9vw", bottom: "-10vh" }, rot: -24, par: 16, dx: 150, dy: 72, delay: 0.1, dur: 7.0 },
+  { side: "r", src: "ranunculus-yellow", layer: "front", w: "14vh", pos: { right: "-6vw", bottom: "13vh" }, rot: -30, par: 18, dx: 160, dy: 60, delay: 0.24, dur: 7.6 },
+];
+
 const Z = { back: 1, mid: 2, front: 3 } as const;
 
-function HeroFlower({ f }: { f: Flower }) {
+function HeroFlower({ f, mobile }: { f: Flower; mobile?: boolean }) {
   const outer: CSSVars = {
     ...f.pos,
     width: f.w,
@@ -70,7 +87,7 @@ function HeroFlower({ f }: { f: Flower }) {
   };
   return (
     <div
-      className={`hero-fl hero-fl--${f.layer} hero-fl--${f.side}`}
+      className={`hero-fl hero-fl--${f.layer} hero-fl--${f.side}${mobile ? " hero-fl--m" : ""}`}
       style={outer}
       data-lead={f.lead ? "" : undefined}
     >
@@ -86,6 +103,18 @@ function HeroFlower({ f }: { f: Flower }) {
 
 export function Hero() {
   const ref = React.useRef<HTMLElement | null>(null);
+  // Which flower set to render. "pending" until we know the viewport so we never
+  // ship the wrong set to SSR (avoids a hydration mismatch and loading unused
+  // images on phones). Flowers slide in via their entrance animation on mount.
+  const [view, setView] = React.useState<"pending" | "d" | "m">("pending");
+
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 760px)");
+    const apply = () => setView(mq.matches ? "m" : "d");
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
   React.useEffect(() => {
     const hero = ref.current;
@@ -135,11 +164,13 @@ export function Hero() {
     };
   }, []);
 
+  const flowers = view === "m" ? MOBILE_FLOWERS : view === "d" ? FLOWERS : [];
+
   return (
     <section id="top" className="hero" ref={ref as React.RefObject<HTMLElement>}>
       <div className="hero__flowers" aria-hidden="true">
-        {FLOWERS.map((f, i) => (
-          <HeroFlower key={i} f={f} />
+        {flowers.map((f, i) => (
+          <HeroFlower key={`${view}-${i}`} f={f} mobile={view === "m"} />
         ))}
       </div>
 

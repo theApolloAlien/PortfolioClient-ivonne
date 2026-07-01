@@ -461,6 +461,8 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .hero-fl--r img { -webkit-mask-image: linear-gradient(to bottom, #000 54%, rgba(0, 0, 0, 0.5) 68%, transparent 80%); mask-image: linear-gradient(to bottom, #000 54%, rgba(0, 0, 0, 0.5) 68%, transparent 80%); }
 .hero-fl--mid img { filter: blur(0.6px) drop-shadow(0 16px 22px rgba(46, 42, 40, 0.10)); opacity: 0.93; }
 .hero-fl--back img { filter: blur(3px) saturate(0.97); opacity: 0.56; }
+/* Phone-set blooms are bottom-anchored; this base fade keeps stems off the cream. */
+.hero-fl--m img { -webkit-mask-image: linear-gradient(to bottom, #000 56%, rgba(0, 0, 0, 0.5) 74%, transparent 88%); mask-image: linear-gradient(to bottom, #000 56%, rgba(0, 0, 0, 0.5) 74%, transparent 88%); }
 .hero__veil { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: radial-gradient(ellipse 60% 58% at center 48%, rgba(253, 251, 248, 0.55) 0%, rgba(253, 251, 248, 0.34) 48%, rgba(253, 251, 248, 0) 80%); }
 .hero__petals { z-index: 5; }
 @keyframes heroSlideL { 0% { transform: translateX(-82px) translateY(8px) scale(0.9); } 100% { transform: translateX(0) translateY(0) scale(1); } }
@@ -468,12 +470,6 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 @keyframes heroSway { 0%, 100% { transform: rotate(calc(var(--rot, 0) * 1deg - 1.5deg)); } 50% { transform: rotate(calc(var(--rot, 0) * 1deg + 1.5deg)); } }
 @media (prefers-reduced-motion: no-preference) { .hero__title em { display: inline-block; } }
 @media (prefers-reduced-motion: reduce) { .hero-fl__inner { animation: none; } .hero-fl__sway { animation: none; } }
-@media (max-width: 760px) {
-  .hero-fl--back, .hero-fl--mid, .hero-fl--front:not([data-lead]) { display: none; }
-  .hero-fl--front { width: 32vh !important; }
-  .hero-fl--l[data-lead] { left: -16vw !important; right: auto; top: auto !important; bottom: -7vh !important; }
-  .hero-fl--r[data-lead] { right: -16vw !important; left: auto; top: auto !important; bottom: -5vh !important; }
-}
 .hero__content { position: relative; z-index: 6; max-width: 1000px; display: flex; flex-direction: column; align-items: center; gap: 30px; padding-inline: var(--gutter); }
 .hero__eyebrow { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; font-family: var(--font-mono); font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--text-accent); }
 .hero__title { font-family: var(--font-serif); font-weight: var(--fw-medium); font-size: var(--fs-hero); line-height: 1.06; letter-spacing: var(--ls-tighter); color: var(--ink); margin: 0; }
@@ -562,7 +558,7 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom__bloom { position: absolute; aspect-ratio: 1; overflow: hidden; transform-origin: center; will-change: transform, opacity; }
 .bloom__bloom img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block; filter: drop-shadow(0 14px 22px rgba(46, 42, 40, 0.12)); }
 .bloom__cards { position: absolute; inset: 0; z-index: 3; }
-.bloom__card { position: absolute; width: clamp(266px, 23vw, 324px); will-change: transform, opacity; }
+.bloom__card { position: absolute; width: clamp(266px, 23vw, 324px); left: var(--pl, auto); right: var(--pr, auto); top: var(--pt, auto); bottom: var(--pb, auto); opacity: var(--co, 1); transform: translateY(calc((1 - var(--co, 1)) * 26px)); filter: blur(calc((1 - var(--co, 1)) * 5px)); will-change: transform, opacity; }
 .bloom__card-flower { position: absolute; width: clamp(420px, 30vw, 528px); aspect-ratio: 3 / 4; object-fit: contain; object-position: center top; z-index: 0; pointer-events: none; transform-origin: 50% 24%; filter: drop-shadow(0 16px 28px rgba(46, 42, 40, 0.16)); }
 .bloom__card-flower[data-pos="tl"] { left: -250px; top: -188px; transform: rotate(128deg); }
 .bloom__card-flower[data-pos="tr"] { right: -250px; top: -188px; transform: rotate(-128deg); }
@@ -589,6 +585,11 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom--static .bloom__card-flower[data-pos="tl"], .bloom--static .bloom__card-flower[data-pos="bl"] { left: -14px; right: auto; }
 .bloom--static .bloom__card-flower[data-pos="tr"], .bloom--static .bloom__card-flower[data-pos="br"], .bloom--static .bloom__card-flower[data-pos="bc"] { left: auto; right: -14px; }
 
+/* Phones/tablets keep the pinned scrub, but the facet cards sit centered near the
+   base and cross-fade in one at a time (--cband) so each is comfortably readable. */
+.bloom--mobile .bloom__bouquet-wrap { top: 43%; width: min(96vw, 440px); height: min(116vw, 520px); }
+.bloom--mobile .bloom__card { left: 50%; right: auto; top: auto; bottom: 7vh; width: min(88vw, 372px); opacity: var(--cband, 0); transform: translateX(-50%) translateY(calc((1 - var(--cband, 0)) * 22px)); filter: blur(calc((1 - var(--cband, 0)) * 4px)); z-index: 6; }
+.bloom--mobile .bloom__card-flower { width: clamp(150px, 44vw, 220px) !important; left: 50% !important; right: auto !important; margin-left: 0 !important; top: -58px !important; transform: translateX(-50%) rotate(7deg) !important; transform-origin: center !important; }
 /* ============================================================
    Responsive
    ============================================================ */
@@ -607,7 +608,4 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
   .hero__title { font-size: clamp(2.5rem, 10.5vw, 3.4rem); line-height: 1.09; }
   .hero__sub { font-size: 1.0625rem; max-width: 42ch; }
   .hero__scroll { display: none; }
-  .hero-fl--front { width: 30vh !important; }
-  .hero-fl--l[data-lead] { left: -20vw !important; bottom: -6vh !important; }
-  .hero-fl--r[data-lead] { right: -20vw !important; bottom: -4vh !important; }
 }
