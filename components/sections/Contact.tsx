@@ -1,0 +1,79 @@
+import * as React from "react";
+import { Button } from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/IconButton";
+import { Reveal } from "@/components/motion/Reveal";
+import { Petals } from "@/components/motion/Petals";
+import { Mail, Github, Linkedin, Telegram, ArrowUpRight, Floret } from "@/components/icons";
+
+export function Contact() {
+  return (
+    <section id="contact" className="contact section">
+      <Petals count={10} className="contact__petals" />
+      <div className="container contact__inner">
+        <Reveal className="contact__floret">
+          <Floret size={34} />
+        </Reveal>
+        <Reveal as="h2" className="contact__title" delay={80}>
+          Let&apos;s build <em>something together</em>.
+        </Reveal>
+        <Reveal className="contact__sub" delay={150}>
+          Open to internships and collaborations. The fastest way to reach me is email or Telegram.
+        </Reveal>
+
+        <Reveal className="contact__cta" delay={220}>
+          <Button
+            variant="filled"
+            size="lg"
+            href="mailto:ivonnew0714@gmail.com"
+            icon={<Mail />}
+            iconPosition="leading"
+          >
+            Email me
+          </Button>
+          <Button variant="outline" size="lg" href="#" icon={<ArrowUpRight />}>
+            Résumé
+          </Button>
+        </Reveal>
+
+        <Reveal className="contact__socials" delay={280}>
+          <IconButton
+            variant="glass"
+            label="GitHub"
+            href="https://github.com/Ivonne828"
+            target="_blank"
+            rel="noreferrer"
+            icon={<Github />}
+          />
+          <IconButton
+            variant="glass"
+            label="LinkedIn"
+            href="https://www.linkedin.com/in/ivonnewijayaa"
+            target="_blank"
+            rel="noreferrer"
+            icon={<Linkedin />}
+          />
+          <IconButton
+            variant="glass"
+            label="Telegram"
+            href="https://t.me/ivnwjy"
+            target="_blank"
+            rel="noreferrer"
+            icon={<Telegram />}
+          />
+        </Reveal>
+      </div>
+
+      <footer className="site-footer">
+        <div className="container site-footer__inner">
+          <a className="brand brand--footer" href="#top" aria-label="Ivonne Wijaya — home">
+            <Floret size={20} />
+            <span className="brand__name">
+              Ivonne <em>Wijaya</em>
+            </span>
+          </a>
+          <span className="site-footer__meta">© 2026 · Built with Next.js · Deployed on Vercel</span>
+        </div>
+      </footer>
+    </section>
+  );
+}
