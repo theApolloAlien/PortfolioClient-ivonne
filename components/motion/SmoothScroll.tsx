@@ -15,7 +15,8 @@ export function SmoothScroll() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-    if (process.env.NODE_ENV !== "production") {
+    // Expose the instance for local dev and for QA captures (?qa in the URL).
+    if (process.env.NODE_ENV !== "production" || window.location.search.includes("qa")) {
       (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
     }
 
