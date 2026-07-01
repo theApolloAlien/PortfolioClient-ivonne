@@ -546,7 +546,7 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 /* ============================================================
    Bloom: The fuller picture
    ============================================================ */
-.bloom { position: relative; height: 540vh; background: var(--cream); --bx: clamp(28px, 4.2vw, 92px); --bytop: clamp(116px, 16vh, 174px); --bybot: clamp(40px, 7vh, 84px); --by5: clamp(18px, 3.4vh, 44px); }
+.bloom { position: relative; height: 330vh; background: var(--cream); --bx: clamp(28px, 4.2vw, 92px); --bytop: clamp(116px, 16vh, 174px); --bybot: clamp(40px, 7vh, 84px); --by5: clamp(18px, 3.4vh, 44px); }
 .bloom__stage { position: sticky; top: 0; height: 100vh; min-height: 660px; overflow: hidden; }
 .bloom__head { position: absolute; top: clamp(16px, 4vh, 44px); left: 50%; --title-travel: clamp(80px, 16vh, 220px); transform: translateX(-50%) translateY(calc(var(--p, 0) * var(--title-travel))); will-change: transform; z-index: 4; display: flex; flex-direction: column; justify-content: center; gap: 9px; align-items: center; text-align: center; width: clamp(340px, 38vw, 480px); height: clamp(340px, 38vw, 480px); background: rgba(253, 251, 248, 0.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-radius: 50%; padding: 0 38px; box-shadow: 0 2px 32px rgba(232, 154, 147, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 .bloom__eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--text-accent); white-space: nowrap; }
@@ -585,16 +585,23 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom--static .bloom__card-flower[data-pos="tl"], .bloom--static .bloom__card-flower[data-pos="bl"] { left: -14px; right: auto; }
 .bloom--static .bloom__card-flower[data-pos="tr"], .bloom--static .bloom__card-flower[data-pos="br"], .bloom--static .bloom__card-flower[data-pos="bc"] { left: auto; right: -14px; }
 
-/* Phones/tablets keep the pinned scrub as a vertical stack: title on top, the
-   full bouquet blooming in the middle, and facet cards cross-fading in one at a
-   time (--cband) near the base so each is comfortably readable. The desktop
-   frosted disc-over-bouquet doesn't scale to a narrow column, so the head
-   becomes plain centered text with a soft cream halo for legibility. */
-.bloom--mobile .bloom__head { top: clamp(80px, 12vh, 118px); --title-travel: 30px; width: min(92vw, 460px); height: auto; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; border-radius: 0; padding: 0 var(--gutter); gap: 8px; z-index: 5; }
-.bloom--mobile .bloom__title { text-shadow: 0 2px 22px rgba(253, 251, 248, 0.9); }
-.bloom--mobile .bloom__bouquet-wrap { top: 55%; width: min(104vw, 480px); height: min(130vw, 560px); }
-.bloom--mobile .bloom__card { left: 50%; right: auto; top: auto; bottom: 6vh; width: min(88vw, 372px); opacity: var(--cband, 0); transform: translateX(-50%) translateY(calc((1 - var(--cband, 0)) * 22px)); filter: blur(calc((1 - var(--cband, 0)) * 4px)); z-index: 6; }
-.bloom--mobile .bloom__card-flower { width: clamp(150px, 44vw, 220px) !important; left: 50% !important; right: auto !important; margin-left: 0 !important; top: -58px !important; transform: translateX(-50%) rotate(7deg) !important; transform-origin: center !important; }
+/* Phones/tablets (<=1024px): calm editorial layout — no pin, no bouquet. A
+   left-aligned title with one calla tucked at the corner, then the facets as a
+   quiet numbered list with hairline dividers. */
+.bloom--mobile { height: auto; }
+.bloom--mobile .bloom__stage { position: static; height: auto; min-height: 0; overflow: visible; padding-block: var(--section-py); }
+.bloom--mobile .bloom__head { position: relative; transform: none; width: auto; height: auto; border-radius: 0; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; padding: 0; margin: 0 0 6px; z-index: auto; display: block; text-align: left; }
+.bloom--mobile .bloom__eyebrow, .bloom--mobile .bloom__title { position: relative; z-index: 1; }
+.bloom--mobile .bloom__title { font-size: clamp(2.1rem, 8.5vw, 2.75rem); line-height: 1.05; margin: 12px 0 0; max-width: 7ch; text-shadow: none; }
+.bloom--mobile .bloom__stem { position: absolute; top: 44px; right: -4px; width: clamp(88px, 26vw, 116px); z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); filter: drop-shadow(0 12px 20px rgba(46, 42, 40, 0.13)); }
+.bloom--mobile .bloom__cards { position: static; inset: auto; display: block; z-index: auto; margin-top: 26px; }
+.bloom--mobile .bloom__card { position: static; width: 100%; left: auto; right: auto; top: auto; bottom: auto; opacity: 1; transform: none; filter: none; border-top: 1px solid var(--border-hairline); }
+.bloom--mobile .bloom__card:last-child { border-bottom: 1px solid var(--border-hairline); }
+.bloom--mobile .bloom__glass { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; border: 0; border-radius: 0; padding: 16px 0; display: grid; grid-template-columns: 26px 1fr; column-gap: 14px; align-items: start; }
+.bloom--mobile .bloom__num { grid-column: 1; grid-row: 1 / span 3; color: var(--ink-soft); padding-top: 5px; }
+.bloom--mobile .bloom__card-title { grid-column: 2; font-size: 1.28rem; }
+.bloom--mobile .bloom__kicker { grid-column: 2; color: var(--rose-deep); text-transform: uppercase; margin: 4px 0 5px; }
+.bloom--mobile .bloom__body { grid-column: 2; font-size: 0.92rem; max-width: none; }
 /* ============================================================
    Responsive
    ============================================================ */

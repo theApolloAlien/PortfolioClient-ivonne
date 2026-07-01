@@ -3,12 +3,14 @@
 import * as React from "react";
 import { GlassCard } from "@/components/ui/GlassCard";
 
-/* Bloom — "The fuller picture": a pinned, scroll-scrubbed stage. One CSS var
-   --p (0..1) drives the gathered bouquet opening, the descending frosted disc,
-   and the facet cards. Desktop frames the four cards in the corners (each fades
-   in). Phones/tablets (<=1024px) keep the pinned scrub but present the cards
-   centered, cross-fading in sequence (--cband) so each stays readable. Only
-   reduced-motion falls back to the fully static stacked layout. */
+/* Bloom — "The fuller picture".
+   Desktop (>1024px): a pinned, scroll-scrubbed stage. One CSS var --p (0..1)
+   drives the gathered bouquet opening, the descending frosted disc, and the four
+   facet cards fading in at the corners. (Reduced-motion → static stacked.)
+   Mobile (<=1024px): a calm editorial layout — title with a single calla tucked
+   at the corner + a numbered list of the facets. No pin, no bouquet.
+   Flower imagery is gated by viewport so phones load only the calla, never the
+   ~15-image bouquet. */
 
 const A = "/florals/real/";
 
@@ -109,6 +111,9 @@ function Bouquet() {
 
 export function Bloom() {
   const secRef = React.useRef<HTMLElement | null>(null);
+  // "pending" until we know the viewport, so we never ship the bouquet to phones
+  // (or a hydration mismatch): desktop renders the bouquet, mobile the lone calla.
+  const [view, setView] = React.useState<"pending" | "desktop" | "mobile">("pending");
 
   React.useEffect(() => {
     const sec = secRef.current;
@@ -128,10 +133,12 @@ export function Bloom() {
     const setup = () => {
       const reduce = mqReduce.matches;
       const narrow = mqNarrow.matches;
-      sec.classList.toggle("bloom--static", reduce);
-      sec.classList.toggle("bloom--mobile", narrow && !reduce);
+      setView(narrow ? "mobile" : "desktop");
+      sec.classList.toggle("bloom--mobile", narrow);
+      sec.classList.toggle("bloom--static", reduce && !narrow);
       window.removeEventListener("scroll", onScroll);
-      if (reduce) {
+      if (narrow || reduce) {
+        // Editorial (mobile) and static (desktop reduced-motion) need no scrub.
         sec.style.setProperty("--p", "1");
       } else {
         window.addEventListener("scroll", onScroll, { passive: true });
@@ -155,28 +162,28 @@ export function Bloom() {
     <section id="more" className="bloom" ref={secRef as React.RefObject<HTMLElement>} style={{ "--p": 0 } as CSSVars}>
       <div className="bloom__stage">
         <div className="bloom__head">
+          {view === "mobile" && (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img className="bloom__stem" src={`${A}calla-white.png`} alt="" aria-hidden="true" />
+          )}
           <span className="bloom__eyebrow">03 — The fuller picture</span>
           <h2 className="bloom__title">
             More than <em>projects</em>
           </h2>
         </div>
 
-        <div className="bloom__bouquet-wrap">
-          <div className="bloom__glow" aria-hidden="true" />
-          <Bouquet />
-        </div>
+        {view === "desktop" && (
+          <div className="bloom__bouquet-wrap">
+            <div className="bloom__glow" aria-hidden="true" />
+            <Bouquet />
+          </div>
+        )}
 
         <div className="bloom__cards">
           {FACETS.map((f, i) => {
-            // Desktop: each card fades in (--co) and holds. Mobile: each card
-            // cross-fades in then out (--cband) so they appear one at a time.
             const co = `clamp(0, calc((var(--p) - ${i * 0.12 + 0.06}) / 0.34), 1)`;
-            const a = (0.22 + i * 0.19).toFixed(2);
-            const c = (i === 3 ? 1.3 : 0.22 + i * 0.19 + 0.24).toFixed(2);
-            const cband = `min(clamp(0, calc((var(--p) - ${a}) / 0.05), 1), clamp(0, calc((${c} - var(--p)) / 0.05), 1))`;
             const style: CSSVars = {
               "--co": co,
-              "--cband": cband,
               "--pl": POS[i].left ?? "auto",
               "--pr": POS[i].right ?? "auto",
               "--pt": POS[i].top ?? "auto",
@@ -184,14 +191,16 @@ export function Bloom() {
             };
             return (
               <div key={f.n} className="bloom__card" style={style}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  className="bloom__card-flower"
-                  data-pos={["tl", "tr", "br", "bl", "bc"][i]}
-                  src={`${A}${f.flower}.png`}
-                  alt=""
-                  aria-hidden="true"
-                />
+                {view === "desktop" && (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    className="bloom__card-flower"
+                    data-pos={["tl", "tr", "br", "bl", "bc"][i]}
+                    src={`${A}${f.flower}.png`}
+                    alt=""
+                    aria-hidden="true"
+                  />
+                )}
                 <GlassCard variant="frost" className="bloom__glass">
                   <span className="bloom__num">{f.n}</span>
                   <h3 className="bloom__card-title">{f.title}</h3>
@@ -203,10 +212,12 @@ export function Bloom() {
           })}
         </div>
 
-        <div className="bloom__hint" aria-hidden="true">
-          <span className="bloom__hint-dot" />
-          keep scrolling to bloom
-        </div>
+        {view === "desktop" && (
+          <div className="bloom__hint" aria-hidden="true">
+            <span className="bloom__hint-dot" />
+            keep scrolling to bloom
+          </div>
+        )}
       </div>
     </section>
   );
