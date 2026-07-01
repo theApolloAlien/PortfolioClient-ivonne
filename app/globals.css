@@ -462,7 +462,7 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .hero-fl--mid img { filter: blur(0.6px) drop-shadow(0 16px 22px rgba(46, 42, 40, 0.10)); opacity: 0.93; }
 .hero-fl--back img { filter: blur(3px) saturate(0.97); opacity: 0.56; }
 /* Phone-set blooms are bottom-anchored; this base fade keeps stems off the cream. */
-.hero-fl--m img { -webkit-mask-image: linear-gradient(to bottom, #000 56%, rgba(0, 0, 0, 0.5) 74%, transparent 88%); mask-image: linear-gradient(to bottom, #000 56%, rgba(0, 0, 0, 0.5) 74%, transparent 88%); }
+.hero-fl--m img { -webkit-mask-image: linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0.38) 65%, transparent 80%); mask-image: linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0.38) 65%, transparent 80%); }
 .hero__veil { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: radial-gradient(ellipse 60% 58% at center 48%, rgba(253, 251, 248, 0.55) 0%, rgba(253, 251, 248, 0.34) 48%, rgba(253, 251, 248, 0) 80%); }
 .hero__petals { z-index: 5; }
 @keyframes heroSlideL { 0% { transform: translateX(-82px) translateY(8px) scale(0.9); } 100% { transform: translateX(0) translateY(0) scale(1); } }
@@ -585,10 +585,15 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom--static .bloom__card-flower[data-pos="tl"], .bloom--static .bloom__card-flower[data-pos="bl"] { left: -14px; right: auto; }
 .bloom--static .bloom__card-flower[data-pos="tr"], .bloom--static .bloom__card-flower[data-pos="br"], .bloom--static .bloom__card-flower[data-pos="bc"] { left: auto; right: -14px; }
 
-/* Phones/tablets keep the pinned scrub, but the facet cards sit centered near the
-   base and cross-fade in one at a time (--cband) so each is comfortably readable. */
-.bloom--mobile .bloom__bouquet-wrap { top: 43%; width: min(96vw, 440px); height: min(116vw, 520px); }
-.bloom--mobile .bloom__card { left: 50%; right: auto; top: auto; bottom: 7vh; width: min(88vw, 372px); opacity: var(--cband, 0); transform: translateX(-50%) translateY(calc((1 - var(--cband, 0)) * 22px)); filter: blur(calc((1 - var(--cband, 0)) * 4px)); z-index: 6; }
+/* Phones/tablets keep the pinned scrub as a vertical stack: title on top, the
+   full bouquet blooming in the middle, and facet cards cross-fading in one at a
+   time (--cband) near the base so each is comfortably readable. The desktop
+   frosted disc-over-bouquet doesn't scale to a narrow column, so the head
+   becomes plain centered text with a soft cream halo for legibility. */
+.bloom--mobile .bloom__head { top: clamp(80px, 12vh, 118px); --title-travel: 30px; width: min(92vw, 460px); height: auto; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; border-radius: 0; padding: 0 var(--gutter); gap: 8px; z-index: 5; }
+.bloom--mobile .bloom__title { text-shadow: 0 2px 22px rgba(253, 251, 248, 0.9); }
+.bloom--mobile .bloom__bouquet-wrap { top: 55%; width: min(104vw, 480px); height: min(130vw, 560px); }
+.bloom--mobile .bloom__card { left: 50%; right: auto; top: auto; bottom: 6vh; width: min(88vw, 372px); opacity: var(--cband, 0); transform: translateX(-50%) translateY(calc((1 - var(--cband, 0)) * 22px)); filter: blur(calc((1 - var(--cband, 0)) * 4px)); z-index: 6; }
 .bloom--mobile .bloom__card-flower { width: clamp(150px, 44vw, 220px) !important; left: 50% !important; right: auto !important; margin-left: 0 !important; top: -58px !important; transform: translateX(-50%) rotate(7deg) !important; transform-origin: center !important; }
 /* ============================================================
    Responsive
