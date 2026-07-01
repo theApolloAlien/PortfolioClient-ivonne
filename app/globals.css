@@ -589,7 +589,7 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
    left-aligned title with one calla tucked at the corner, then the facets as a
    quiet numbered list with hairline dividers. */
 .bloom--mobile { height: auto; }
-.bloom--mobile .bloom__stage { position: static; height: auto; min-height: 0; overflow: visible; padding-block: var(--section-py); }
+.bloom--mobile .bloom__stage { position: static; height: auto; min-height: 0; overflow: visible; padding-block: var(--section-py); padding-inline: var(--gutter); }
 .bloom--mobile .bloom__head { position: relative; left: auto; top: auto; transform: none; width: auto; height: auto; border-radius: 0; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; padding: 0; margin: 0 0 6px; z-index: auto; display: block; text-align: left; }
 .bloom--mobile .bloom__eyebrow, .bloom--mobile .bloom__title { position: relative; z-index: 1; }
 .bloom--mobile .bloom__title { font-size: clamp(2.1rem, 8.5vw, 2.75rem); line-height: 1.05; margin: 12px 0 0; max-width: 7ch; text-shadow: none; }
