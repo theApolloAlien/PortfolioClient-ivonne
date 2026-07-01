@@ -569,7 +569,9 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom__num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--rose-deep); }
 .bloom__card-title { font-family: var(--font-serif); font-size: 1.5rem; font-weight: var(--fw-medium); line-height: 1.12; color: var(--ink); margin: 0; text-wrap: balance; }
 .bloom__kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; color: var(--ink-muted); }
-.bloom__body { font-size: 1rem; line-height: 1.6; color: var(--ink-muted); margin: 5px 0 0; max-width: 38ch; text-wrap: pretty; }
+.bloom__points { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-width: 40ch; }
+.bloom__point { position: relative; padding-left: 15px; font-size: 0.95rem; line-height: 1.5; color: var(--ink-muted); text-wrap: pretty; }
+.bloom__point::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; border-radius: 50%; background: var(--rose); opacity: 0.85; }
 .bloom__hint { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); opacity: calc(1 - var(--p) * 4); }
 .bloom__hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); }
 .bloom--static { height: auto; }
@@ -601,7 +603,13 @@ a, button, .iw-btn, .iw-iconbtn, .nav-toggle, .nav-mobile__link { -webkit-tap-hi
 .bloom--mobile .bloom__num { grid-column: 1; grid-row: 1 / span 3; color: var(--ink-soft); padding-top: 5px; }
 .bloom--mobile .bloom__card-title { grid-column: 2; font-size: 1.28rem; }
 .bloom--mobile .bloom__kicker { grid-column: 2; color: var(--rose-deep); text-transform: uppercase; margin: 4px 0 5px; }
-.bloom--mobile .bloom__body { grid-column: 2; font-size: 0.92rem; max-width: none; }
+.bloom--mobile .bloom__points { grid-column: 2; max-width: none; }
+.bloom--mobile .bloom__point { font-size: 0.9rem; }
+/* Simple scroll reveal for the mobile editorial layout: head + each facet fade
+   and rise in as they enter view. Armed by JS (.bloom--reveal) so no-JS shows all. */
+.bloom--mobile .bloom__head, .bloom--mobile .bloom__card { transition: opacity 0.6s var(--ease-soft), transform 0.6s var(--ease-soft); }
+.bloom--reveal .bloom__head:not(.is-in), .bloom--reveal .bloom__card:not(.is-in) { opacity: 0; transform: translateY(24px); }
+@media (prefers-reduced-motion: reduce) { .bloom--mobile .bloom__head, .bloom--mobile .bloom__card { transition: none; opacity: 1; transform: none; } }
 /* ============================================================
    Responsive
    ============================================================ */

@@ -65,7 +65,7 @@ export function Contact() {
 
       <footer className="site-footer">
         <div className="container site-footer__inner">
-          <a className="brand brand--footer" href="#top" aria-label="Ivonne Wijaya — home">
+          <a className="brand brand--footer" href="#top" aria-label="Ivonne Wijaya, home">
             <Floret size={20} />
             <span className="brand__name">
               Ivonne <em>Wijaya</em>

@@ -44,7 +44,7 @@ export function Nav() {
   return (
     <header className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
       <div className="site-nav__inner container-wide">
-        <a className="brand" href="#top" aria-label="Ivonne Wijaya — home">
+        <a className="brand" href="#top" aria-label="Ivonne Wijaya, home">
           <Floret size={26} />
           <span className="brand__name">
             Ivonne <em>Wijaya</em>

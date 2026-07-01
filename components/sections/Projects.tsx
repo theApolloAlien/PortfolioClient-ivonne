@@ -33,7 +33,7 @@ const PROJECTS: Project[] = [
     flower: "ranunculus-yellow",
     tone: "media--blush",
     summary:
-      "Public hub for a university-wide sports event — responsive interfaces and GSAP-powered motion, built with a 15+ team.",
+      "Public hub for a university-wide sports event, with responsive interfaces and GSAP-powered motion, built with a 15+ team.",
     tags: ["Next.js", "TypeScript", "Tailwind", "GSAP"],
     href: "https://www.kingscupsg.com/",
   },
@@ -43,7 +43,7 @@ const PROJECTS: Project[] = [
     flower: "hydrangea-blue",
     tone: "media--sage",
     summary:
-      "A browser-based games platform built from scratch — 1,000+ weekly visitors, with a PHP-backed comment system.",
+      "A browser-based games platform built from scratch, with 1,000+ weekly visitors and a PHP-backed comment system.",
     tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     href: "https://gamify.fun/",
   },

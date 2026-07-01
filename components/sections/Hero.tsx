@@ -188,8 +188,8 @@ export function Hero() {
         </Reveal>
 
         <Reveal className="hero__sub" delay={180}>
-          A Year-2 Computer Science student crafting thoughtful products — full-stack web, mobile apps, and
-          AI-powered tools.
+          A Year-2 Computer Science student crafting thoughtful products across full-stack web, mobile apps,
+          and AI-powered tools.
         </Reveal>
 
         <Reveal className="hero__cta" delay={260}>

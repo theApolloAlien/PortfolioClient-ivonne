@@ -7,17 +7,22 @@ const GROUPS: { label: string; tone: NonNullable<TagProps["tone"]>; items: strin
   {
     label: "Languages",
     tone: "blush",
-    items: ["Python", "JavaScript / TypeScript", "Java", "C / C++", "SQL", "HTML / CSS"],
+    items: ["Python", "JavaScript / TypeScript", "Java", "C / C++", "PHP", "SQL", "HTML / CSS"],
   },
   {
     label: "Frameworks & Libraries",
     tone: "rose",
-    items: ["React", "Next.js", "Django", "React Native", "Flutter"],
+    items: ["React", "Next.js", "Django", "React Native", "Tailwind CSS", "Bootstrap", "Flutter"],
   },
   {
     label: "Tools & Platforms",
     tone: "sage",
     items: ["Git / GitHub", "Docker", "AWS / GCP / Azure", "PostgreSQL / MySQL / MongoDB", "Figma"],
+  },
+  {
+    label: "Spoken",
+    tone: "plain",
+    items: ["English (Fluent)", "Chinese (Working proficiency)"],
   },
 ];
 

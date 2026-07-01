@@ -39,7 +39,7 @@ export function About() {
           </Reveal>
           <Reveal className="about__para" delay={200}>
             Over the past few years I&apos;ve shipped React and Next.js websites, React Native mobile apps, and
-            Django backends — moving comfortably between frontend polish and backend logic.
+            Django backends, moving comfortably between frontend polish and backend logic.
           </Reveal>
           <Reveal className="about__para" delay={260}>
             Outside of code I help run student organisations and technical projects, which taught me that good

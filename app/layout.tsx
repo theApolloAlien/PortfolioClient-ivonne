@@ -29,9 +29,9 @@ const SITE_URL = "https://ivonnewebsite.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Ivonne Wijaya — Portfolio",
+  title: "Ivonne Wijaya · Portfolio",
   description:
-    "Ivonne Wijaya — Year-2 Computer Science student at NTU building thoughtful full-stack web, mobile, and AI-powered products.",
+    "Ivonne Wijaya, a Year-2 Computer Science student at NTU building thoughtful full-stack web, mobile, and AI-powered products.",
   keywords: [
     "Ivonne Wijaya",
     "Computer Science",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Ivonne Wijaya" }],
   openGraph: {
-    title: "Ivonne Wijaya — Portfolio",
+    title: "Ivonne Wijaya · Portfolio",
     description:
       "Year-2 Computer Science student at NTU building thoughtful full-stack web, mobile, and AI-powered products.",
     url: SITE_URL,
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ivonne Wijaya — Portfolio",
+    title: "Ivonne Wijaya · Portfolio",
     description:
       "Year-2 Computer Science student at NTU building thoughtful full-stack web, mobile, and AI-powered products.",
   },

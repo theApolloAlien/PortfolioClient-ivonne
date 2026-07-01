@@ -8,9 +8,8 @@ import { GlassCard } from "@/components/ui/GlassCard";
    drives the gathered bouquet opening, the descending frosted disc, and the four
    facet cards fading in at the corners. (Reduced-motion → static stacked.)
    Mobile (<=1024px): a calm editorial layout — title with a single calla tucked
-   at the corner + a numbered list of the facets. No pin, no bouquet.
-   Flower imagery is gated by viewport so phones load only the calla, never the
-   ~15-image bouquet. */
+   at the corner + a numbered list of the facets, revealed as you scroll.
+   Flower imagery is gated by viewport so phones load only the calla. */
 
 const A = "/florals/real/";
 
@@ -21,32 +20,44 @@ const FACETS = [
     n: "01",
     title: "Academic distinction",
     flower: "peony-white",
-    kicker: "Highest Distinction · 4.91 / 5",
-    body:
-      "Bachelor of Computing (Honours) in Computer Science at NTU, with coursework across algorithms, computer architecture, and OOP.",
+    kicker: "Highest Distinction · CGPA 4.91 / 5",
+    points: [
+      "Bachelor of Computing (Honours) in Computer Science at NTU.",
+      "Coursework: data structures & algorithms, computer organisation & architecture, OOP, digital logic, and linear algebra.",
+    ],
   },
   {
     n: "02",
     title: "More builds",
     flower: "ranunculus-yellow",
     kicker: "Beyond the headline projects",
-    body:
-      "NTU Buddhist Society — shipped features into a live Next.js codebase. CS50W — a full-stack Django social network with REST APIs.",
+    points: [
+      "NTU Buddhist Society: shipped features into a live Next.js codebase and fixed legacy bugs.",
+      "CS50W: a full-stack Django social network with REST APIs and CSRF-protected AJAX.",
+    ],
   },
   {
     n: "03",
     title: "Leadership & community",
     flower: "dahlia-red",
     kicker: "Four student roles",
-    body:
-      "PINTU Technology Officer · NTUBS Tech Subcommittee (Buddhist Week, 500+) · GTD Finance Manager · SCDS Sports Officer.",
+    points: [
+      "PINTU Technology Officer, building React and TypeScript web apps.",
+      "NTU Buddhist Society Tech Subcommittee (Buddhist Week 2026, 500+).",
+      "GTD Business Finance Manager, leading sponsorship outreach.",
+      "SCDS Club Sports Officer.",
+    ],
   },
   {
     n: "04",
     title: "Always learning",
     flower: "hellebore-pink",
-    kicker: "Courses & hackathons",
-    body: "Harvard CS50 & CS50W · NUS “Road to ChatGPT” · Hackathons: PSA, Techfest, Manus AI, AWS Ideathon.",
+    kicker: "Courses, certifications & hackathons",
+    points: [
+      "Harvard CS50 and CS50W.",
+      "NUS “Road to ChatGPT”: basics of AI in language processing.",
+      "Hackathons: PSA 2025, Techfest 2026, Manus AI, AWS Ideathon 2026.",
+    ],
   },
 ];
 
@@ -121,6 +132,8 @@ export function Bloom() {
     const mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mqNarrow = window.matchMedia("(max-width: 1024px)");
     let raf = 0;
+    let revealIO: IntersectionObserver | null = null;
+
     const compute = () => {
       const total = sec.offsetHeight - window.innerHeight;
       const prog = total > 0 ? Math.min(1, Math.max(0, -sec.getBoundingClientRect().top / total)) : 1;
@@ -130,6 +143,39 @@ export function Bloom() {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(compute);
     };
+
+    // Mobile editorial: a simple scroll reveal — head + each facet fade/rise in
+    // as they enter the viewport.
+    const teardownReveal = () => {
+      revealIO?.disconnect();
+      revealIO = null;
+      sec.classList.remove("bloom--reveal");
+    };
+    const setupReveal = (active: boolean) => {
+      teardownReveal();
+      if (!active) return;
+      const targets = [sec.querySelector(".bloom__head"), ...sec.querySelectorAll(".bloom__card")].filter(
+        Boolean
+      ) as Element[];
+      sec.classList.add("bloom--reveal");
+      revealIO = new IntersectionObserver(
+        (entries, io) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -6% 0px" }
+      );
+      targets.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 800) * 0.94 && r.bottom > 0) el.classList.add("is-in");
+        else revealIO!.observe(el);
+      });
+    };
+
     const setup = () => {
       const reduce = mqReduce.matches;
       const narrow = mqNarrow.matches;
@@ -138,12 +184,13 @@ export function Bloom() {
       sec.classList.toggle("bloom--static", reduce && !narrow);
       window.removeEventListener("scroll", onScroll);
       if (narrow || reduce) {
-        // Editorial (mobile) and static (desktop reduced-motion) need no scrub.
         sec.style.setProperty("--p", "1");
       } else {
         window.addEventListener("scroll", onScroll, { passive: true });
         compute();
       }
+      // reveal only for the mobile editorial layout (and only if motion is allowed)
+      setupReveal(narrow && !reduce);
     };
     setup();
     window.addEventListener("resize", setup);
@@ -154,6 +201,7 @@ export function Bloom() {
       window.removeEventListener("resize", setup);
       mqReduce.removeEventListener?.("change", setup);
       mqNarrow.removeEventListener?.("change", setup);
+      teardownReveal();
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -166,7 +214,7 @@ export function Bloom() {
             /* eslint-disable-next-line @next/next/no-img-element */
             <img className="bloom__stem" src={`${A}calla-white.png`} alt="" aria-hidden="true" />
           )}
-          <span className="bloom__eyebrow">03 — The fuller picture</span>
+          <span className="bloom__eyebrow">03 · The fuller picture</span>
           <h2 className="bloom__title">
             More than <em>projects</em>
           </h2>
@@ -205,7 +253,13 @@ export function Bloom() {
                   <span className="bloom__num">{f.n}</span>
                   <h3 className="bloom__card-title">{f.title}</h3>
                   <span className="bloom__kicker">{f.kicker}</span>
-                  <p className="bloom__body">{f.body}</p>
+                  <ul className="bloom__points">
+                    {f.points.map((pt, j) => (
+                      <li key={j} className="bloom__point">
+                        {pt}
+                      </li>
+                    ))}
+                  </ul>
                 </GlassCard>
               </div>
             );
