@@ -30,6 +30,8 @@ export function SmoothScroll() {
     const onClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
       if (!target) return;
+      // Skip link needs native behavior so focus moves to the target.
+      if (target.classList.contains("skip-link")) return;
       const hash = target.getAttribute("href") || "";
       if (hash === "#" || hash.length < 2) {
         e.preventDefault();

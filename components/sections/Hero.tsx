@@ -94,7 +94,7 @@ function HeroFlower({ f, mobile }: { f: Flower; mobile?: boolean }) {
       <div className="hero-fl__inner" style={{ animationDelay: `${f.delay || 0}s` }}>
         <div className="hero-fl__sway" style={sway}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`${A}${f.src}.png`} alt="" aria-hidden="true" />
+          <img src={`${A}${f.src}.webp`} alt="" aria-hidden="true" />
         </div>
       </div>
     </div>

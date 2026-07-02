@@ -58,7 +58,7 @@ function Card({ p, i }: { p: Project; i: number }) {
       <GlassCard variant="frost" interactive className="work-card" {...linkProps}>
         <div className={`work-card__media ${p.tone}`} aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="work-card__flower" src={`/florals/real/${p.flower}.png`} alt="" />
+          <img className="work-card__flower" src={`/florals/real/${p.flower}.webp`} alt="" loading="lazy" decoding="async" />
           <span className="work-card__badge">
             {p.mobile ? <Smartphone /> : <ArrowUpRight />}
             {p.mobile ? "Mobile app" : "Live site"}

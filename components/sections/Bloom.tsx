@@ -112,7 +112,7 @@ function Bouquet() {
         return (
           <div key={i} className="bloom__bloom" style={style}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`${A}${b.src}.png`} alt="" aria-hidden="true" />
+            <img src={`${A}${b.src}.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           </div>
         );
       })}
@@ -212,7 +212,7 @@ export function Bloom() {
         <div className="bloom__head">
           {view === "mobile" && (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img className="bloom__stem" src={`${A}calla-white.png`} alt="" aria-hidden="true" />
+            <img className="bloom__stem" src={`${A}calla-white.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           )}
           <span className="bloom__eyebrow">03 · The fuller picture</span>
           <h2 className="bloom__title">
@@ -244,7 +244,9 @@ export function Bloom() {
                   <img
                     className="bloom__card-flower"
                     data-pos={["tl", "tr", "br", "bl", "bc"][i]}
-                    src={`${A}${f.flower}.png`}
+                    src={`${A}${f.flower}.webp`}
+                    loading="lazy"
+                    decoding="async"
                     alt=""
                     aria-hidden="true"
                   />

@@ -42,3 +42,6 @@ inspo*.jpeg
 Screenshot*.png
 ivonee_headshot.jpeg
 Flower*.png
+
+# design prototypes (local only)
+public/bloom-prototypes*.html

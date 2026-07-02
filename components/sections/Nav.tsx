@@ -16,6 +16,7 @@ export function Nav() {
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [active, setActive] = React.useState("");
+  const headerRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -23,6 +24,23 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close the mobile menu on Escape or when tapping outside the nav.
+  React.useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const onDown = (e: PointerEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
+    };
+  }, [open]);
 
   React.useEffect(() => {
     const ids = LINKS.map((l) => l.href.slice(1));
@@ -42,7 +60,7 @@ export function Nav() {
   }, []);
 
   return (
-    <header className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
+    <header ref={headerRef} className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
       <div className="site-nav__inner container-wide">
         <a className="brand" href="#top" aria-label="Ivonne Wijaya, home">
           <Floret size={26} />
@@ -67,6 +85,7 @@ export function Nav() {
             className="nav-toggle"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="nav-mobile-menu"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <Close /> : <Menu />}
@@ -74,7 +93,7 @@ export function Nav() {
         </div>
       </div>
 
-      <div className={`nav-mobile ${open ? "is-open" : ""}`}>
+      <div id="nav-mobile-menu" className={`nav-mobile ${open ? "is-open" : ""}`}>
         {LINKS.map((l) => (
           <a key={l.href} href={l.href} className="nav-mobile__link" onClick={() => setOpen(false)}>
             {l.label}

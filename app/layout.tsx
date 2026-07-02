@@ -50,13 +50,21 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "Ivonne Wijaya",
     type: "website",
-    images: [{ url: "/ivonne-headshot.jpeg", width: 1200, height: 630, alt: "Ivonne Wijaya" }],
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Ivonne Wijaya, building software that solves real problems",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ivonne Wijaya · Portfolio",
     description:
       "Year-2 Computer Science student at NTU building thoughtful full-stack web, mobile, and AI-powered products.",
+    images: ["/og-image.jpg"],
   },
 };
 
@@ -70,6 +78,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${cormorant.variable} ${hanken.variable} ${jetbrains.variable}`}>
       <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <SmoothScroll />
         {children}
       </body>

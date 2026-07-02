@@ -30,7 +30,14 @@ export function Contact() {
           >
             Email me
           </Button>
-          <Button variant="outline" size="lg" href="#" icon={<ArrowUpRight />}>
+          <Button
+            variant="outline"
+            size="lg"
+            href="/Ivonne_Wijaya_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            icon={<ArrowUpRight />}
+          >
             Résumé
           </Button>
         </Reveal>
