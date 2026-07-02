@@ -7,11 +7,11 @@ import { GlassCard } from "@/components/ui/GlassCard";
    Desktop (>1024px): a pinned, scroll-scrubbed stage. One CSS var --p (0..1)
    drives the gathered bouquet opening, the descending frosted disc, and the four
    facet cards fading in at the corners. (Reduced-motion → static stacked.)
-   Mobile (<=1024px): a calm editorial layout — title with a single calla tucked
-   at the corner + a numbered list of the facets, revealed as you scroll.
-   Flower imagery is gated by viewport so phones load only the calla. */
+   Mobile (<=1024px): a calm editorial layout — title with a lily-of-the-valley
+   sprig tucked at the corner + a numbered list of the facets, revealed on scroll.
+   Imagery is gated by viewport so phones load only the lily. */
 
-const A = "/florals/real/";
+const A = "/elements/";
 
 type CSSVars = React.CSSProperties & Record<`--${string}`, string | number>;
 
@@ -19,7 +19,7 @@ const FACETS = [
   {
     n: "01",
     title: "Academic distinction",
-    flower: "peony-white",
+    flower: "lily-2",
     kicker: "Highest Distinction · CGPA 4.91 / 5",
     points: [
       "Bachelor of Computing (Honours) in Computer Science at NTU.",
@@ -29,7 +29,7 @@ const FACETS = [
   {
     n: "02",
     title: "More builds",
-    flower: "ranunculus-yellow",
+    flower: "sakura",
     kicker: "Beyond the headline projects",
     points: [
       "NTU Buddhist Society: shipped features into a live Next.js codebase and fixed legacy bugs.",
@@ -39,7 +39,7 @@ const FACETS = [
   {
     n: "03",
     title: "Leadership & community",
-    flower: "dahlia-red",
+    flower: "bow-pink",
     kicker: "Four student roles",
     points: [
       "PINTU Technology Officer, building React and TypeScript web apps.",
@@ -51,7 +51,7 @@ const FACETS = [
   {
     n: "04",
     title: "Always learning",
-    flower: "hellebore-pink",
+    flower: "butterfly-blue",
     kicker: "Courses, certifications & hackathons",
     points: [
       "Harvard CS50 and CS50W.",
@@ -62,27 +62,21 @@ const FACETS = [
 ];
 
 type Bloom = { src: string; x: number; y: number; s: number; rot: number; d: number; z: number; flip?: boolean };
+// A keepsake arrangement from the new kit: sakura sprays fan wide, lily of the
+// valley anchors the centre, pressed daisies fill, butterflies hover above and
+// a curling ribbon + pearl gather the base.
 const BOUQUET: Bloom[] = [
-  // back foliage
-  { src: "leaf-sprig", x: 12, y: 30, s: 38, rot: -42, d: 0.16, z: 1, flip: false },
-  { src: "leaf-sprig", x: 88, y: 30, s: 38, rot: 42, d: 0.18, z: 1, flip: true },
-  { src: "leaf-sprig", x: 30, y: 21, s: 28, rot: -20, d: 0.2, z: 1, flip: false },
-  { src: "leaf-sprig", x: 70, y: 21, s: 28, rot: 20, d: 0.22, z: 1, flip: true },
-  // crown
-  { src: "camellia-pink", x: 18, y: 33, s: 30, rot: -18, d: 0.1, z: 2 },
-  { src: "hellebore-pink", x: 34, y: 27, s: 27, rot: -8, d: 0.07, z: 3 },
-  { src: "peony-white", x: 50, y: 30, s: 34, rot: 0, d: 0.0, z: 5 },
-  { src: "chrysanthemum-yellow", x: 66, y: 27, s: 26, rot: 8, d: 0.06, z: 3 },
-  { src: "camellia-pink", x: 82, y: 33, s: 29, rot: 18, d: 0.11, z: 2, flip: true },
-  // second row
-  { src: "rose-red", x: 31, y: 45, s: 29, rot: -12, d: 0.13, z: 3 },
-  { src: "peony-white", x: 50, y: 47, s: 32, rot: 0, d: 0.09, z: 6 },
-  { src: "hellebore-pink", x: 69, y: 45, s: 28, rot: 12, d: 0.12, z: 4 },
-  // third row
-  { src: "ranunculus-yellow", x: 41, y: 58, s: 26, rot: -7, d: 0.16, z: 5 },
-  { src: "camellia-pink", x: 59, y: 58, s: 26, rot: 7, d: 0.15, z: 4 },
-  // point
-  { src: "dahlia-red", x: 50, y: 69, s: 27, rot: 0, d: 0.18, z: 6 },
+  // sakura sprays, widest layer
+  { src: "sakura", x: 27, y: 32, s: 46, rot: -8, d: 0.08, z: 2 },
+  { src: "sakura", x: 73, y: 32, s: 46, rot: 8, d: 0.1, z: 2, flip: true },
+  // lily sprigs at the crown
+  { src: "lily-2", x: 37, y: 24, s: 20, rot: -10, d: 0.14, z: 3 },
+  { src: "lily-2", x: 63, y: 24, s: 20, rot: 10, d: 0.15, z: 3, flip: true },
+  // lily-of-the-valley bouquet, the centrepiece
+  { src: "lily-1", x: 50, y: 43, s: 38, rot: 0, d: 0.0, z: 6 },
+  // butterflies hovering at the crown
+  { src: "butterfly-blue", x: 29, y: 15, s: 12, rot: -6, d: 0.22, z: 7 },
+  { src: "butterfly-red", x: 69, y: 17, s: 10, rot: 8, d: 0.26, z: 7 },
 ];
 
 function Bouquet() {
@@ -204,7 +198,7 @@ export function Bloom() {
         <div className="bloom__head">
           {view === "mobile" && (
             /* eslint-disable-next-line @next/next/no-img-element */
-            <img className="bloom__stem" src={`${A}calla-white.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <img className="bloom__stem" src={`${A}lily-1.webp`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           )}
           <span className="bloom__eyebrow">03 · The fuller picture</span>
           <h2 className="bloom__title">

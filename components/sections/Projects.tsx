@@ -8,7 +8,7 @@ import { ArrowUpRight, Smartphone } from "@/components/icons";
 type Project = {
   name: string;
   kind: string;
-  flower: string;
+  element: string;
   tone: string;
   summary: string;
   tags: string[];
@@ -16,11 +16,14 @@ type Project = {
   href?: string;
 };
 
+// Each card carries a keepsake element instead of a botanical specimen:
+// a pearl heart for the friend-group expense app, a champagne award bow for
+// the sports event site, and a pearl star for the games platform.
 const PROJECTS: Project[] = [
   {
     name: "Splitly",
     kind: "Mobile expense-splitting app",
-    flower: "camellia-pink",
+    element: "pearl-heart",
     tone: "media--rose",
     summary:
       "A group expense-splitter that uses a debt-simplification algorithm to settle up in the fewest transactions.",
@@ -30,7 +33,7 @@ const PROJECTS: Project[] = [
   {
     name: "KINGS Cup",
     kind: "University sports event website",
-    flower: "ranunculus-yellow",
+    element: "bow-cream",
     tone: "media--blush",
     summary:
       "Public hub for a university-wide sports event, with responsive interfaces and GSAP-powered motion, built with a 15+ team.",
@@ -40,7 +43,7 @@ const PROJECTS: Project[] = [
   {
     name: "Gamify",
     kind: "Browser game platform",
-    flower: "hydrangea-blue",
+    element: "pearl-star",
     tone: "media--sage",
     summary:
       "A browser-based games platform built from scratch, with 1,000+ weekly visitors and a PHP-backed comment system.",
@@ -58,7 +61,7 @@ function Card({ p, i }: { p: Project; i: number }) {
       <GlassCard variant="frost" interactive className="work-card" {...linkProps}>
         <div className={`work-card__media ${p.tone}`} aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="work-card__flower" src={`/florals/real/${p.flower}.webp`} alt="" loading="lazy" decoding="async" />
+          <img className="work-card__flower" src={`/elements/${p.element}.webp`} alt="" loading="lazy" decoding="async" />
           <span className="work-card__badge">
             {p.mobile ? <Smartphone /> : <ArrowUpRight />}
             {p.mobile ? "Mobile app" : "Live site"}
@@ -91,7 +94,14 @@ function Card({ p, i }: { p: Project; i: number }) {
 export function Projects() {
   return (
     <section id="work" className="work section">
-      <div className="work__wash" aria-hidden="true" />
+      <div className="work__sky" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="work__cloud work__cloud--a" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="work__cloud work__cloud--b" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="work__cloud work__cloud--c" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
+      </div>
       <div className="container">
         <div className="section__head">
           <Reveal>

@@ -471,11 +471,8 @@ main:focus { outline: none; }
 .hero-fl__sway { animation: heroSway 7s ease-in-out infinite; transform-origin: bottom center; transform: rotate(calc(var(--rot, 0) * 1deg)); will-change: transform; }
 .hero-fl img { display: block; width: 100%; height: auto; }
 .hero-fl--front img { filter: drop-shadow(0 24px 34px rgba(46, 42, 40, 0.16)); }
-.hero-fl--r img { -webkit-mask-image: linear-gradient(to bottom, #000 54%, rgba(0, 0, 0, 0.5) 68%, transparent 80%); mask-image: linear-gradient(to bottom, #000 54%, rgba(0, 0, 0, 0.5) 68%, transparent 80%); }
 .hero-fl--mid img { filter: blur(0.6px) drop-shadow(0 16px 22px rgba(46, 42, 40, 0.10)); opacity: 0.93; }
 .hero-fl--back img { filter: blur(3px) saturate(0.97); opacity: 0.56; }
-/* Phone-set blooms are bottom-anchored; this base fade keeps stems off the cream. */
-.hero-fl--m img { -webkit-mask-image: linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0.38) 65%, transparent 80%); mask-image: linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0.38) 65%, transparent 80%); }
 .hero__veil { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: radial-gradient(ellipse 60% 58% at center 48%, rgba(253, 251, 248, 0.55) 0%, rgba(253, 251, 248, 0.34) 48%, rgba(253, 251, 248, 0) 80%); }
 .hero__petals { z-index: 5; }
 @keyframes heroSlideL { 0% { transform: translateX(-82px) translateY(8px) scale(0.9); } 100% { transform: translateX(0) translateY(0) scale(1); } }
@@ -498,7 +495,7 @@ main:focus { outline: none; }
 .about { background: var(--cream); }
 .about__grid { display: grid; grid-template-columns: 0.82fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
 .about__media { position: relative; aspect-ratio: 4 / 5; max-width: 460px; width: 100%; }
-.about__accent { position: absolute; left: -42px; top: -44px; width: 52%; aspect-ratio: 1; background: url("/florals/real/camellia-pink.webp") center/contain no-repeat; z-index: 0; filter: drop-shadow(0 12px 22px rgba(46, 42, 40, 0.12)); }
+.about__accent { position: absolute; left: -46px; top: -52px; width: 46%; aspect-ratio: 1; background: url("/elements/bow-pink.webp") center/contain no-repeat; transform: rotate(-14deg); z-index: 0; filter: drop-shadow(0 12px 22px rgba(46, 42, 40, 0.12)); }
 .about__portrait { position: relative; z-index: 1; width: 100%; height: 100%; }
 .about__chip { position: absolute; left: 18px; bottom: 18px; z-index: 3; }
 .about__body { display: flex; flex-direction: column; gap: 16px; }
@@ -509,7 +506,12 @@ main:focus { outline: none; }
    Work
    ============================================================ */
 .work { background: var(--warm-white); overflow: hidden; }
-.work__wash { position: absolute; inset: 0; background: url("/florals/rose-pattern.webp") center/cover; opacity: 0.09; pointer-events: none; }
+/* Soft painted clouds drift behind the project cards. */
+.work__sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.work__cloud { position: absolute; opacity: 0.5; }
+.work__cloud--a { width: clamp(300px, 34vw, 520px); top: 4%; right: -6%; }
+.work__cloud--b { width: clamp(240px, 26vw, 400px); top: 38%; left: -7%; opacity: 0.4; filter: blur(1px); }
+.work__cloud--c { width: clamp(200px, 20vw, 320px); bottom: 5%; right: 14%; opacity: 0.32; filter: blur(2px); }
 .work .container { position: relative; z-index: 1; }
 .work__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.25rem, 2.2vw, 1.75rem); }
 .work__grid .iw-reveal { height: 100%; }
@@ -567,7 +569,7 @@ main:focus { outline: none; }
 .bloom__title em { font-style: italic; font-weight: var(--fw-regular); color: var(--text-accent); }
 .bloom__bouquet-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 92vw; height: 98vh; z-index: 1; }
 .bloom__glow { position: absolute; inset: -12%; border-radius: 50%; background: radial-gradient(circle, rgba(243, 201, 206, 0.55) 0%, rgba(248, 221, 224, 0) 64%); opacity: calc(0.25 + 0.75 * var(--p)); z-index: 0; }
-.bloom__bouquet { position: absolute; inset: 0; z-index: 1; transform-origin: center 62%; transform: scale(calc(0.82 + 0.18 * var(--p))); opacity: calc(0.4 + 0.6 * var(--p)); will-change: transform, opacity; -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 93%); mask-image: linear-gradient(to bottom, #000 60%, transparent 93%); }
+.bloom__bouquet { position: absolute; inset: 0; z-index: 1; transform-origin: center 62%; transform: scale(calc(0.82 + 0.18 * var(--p))); opacity: calc(0.4 + 0.6 * var(--p)); will-change: transform, opacity; }
 .bloom__bloom { position: absolute; aspect-ratio: 1; overflow: hidden; transform-origin: center; will-change: transform, opacity; }
 .bloom__bloom img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block; filter: drop-shadow(0 14px 22px rgba(46, 42, 40, 0.12)); }
 /* Corner-framed card layer as a 2×2 grid: rows/columns can never overlap each
@@ -578,12 +580,12 @@ main:focus { outline: none; }
 .bloom__card:nth-child(2) { grid-column: 3; grid-row: 1; align-self: start; }
 .bloom__card:nth-child(3) { grid-column: 3; grid-row: 2; align-self: end; }
 .bloom__card:nth-child(4) { grid-column: 1; grid-row: 2; align-self: end; }
-.bloom__card-flower { position: absolute; width: clamp(420px, 30vw, 528px); aspect-ratio: 3 / 4; object-fit: contain; object-position: center top; z-index: 0; pointer-events: none; transform-origin: 50% 24%; filter: drop-shadow(0 16px 28px rgba(46, 42, 40, 0.16)); }
-.bloom__card-flower[data-pos="tl"] { left: -250px; top: -188px; transform: rotate(128deg); }
-.bloom__card-flower[data-pos="tr"] { right: -250px; top: -188px; transform: rotate(-128deg); }
-.bloom__card-flower[data-pos="bl"] { left: -250px; top: -150px; transform: rotate(52deg); }
-.bloom__card-flower[data-pos="br"] { right: -250px; top: -150px; transform: rotate(-52deg); }
-.bloom__card-flower[data-pos="bc"] { left: 50%; margin-left: -245px; top: -150px; transform: rotate(-30deg); }
+/* Keepsake accents peek from behind each card's outer-top corner. */
+.bloom__card-flower { position: absolute; width: clamp(140px, 11vw, 190px); aspect-ratio: 1; object-fit: contain; object-position: center; z-index: 0; pointer-events: none; filter: drop-shadow(0 16px 28px rgba(46, 42, 40, 0.16)); }
+.bloom__card-flower[data-pos="tl"] { left: -52px; top: -66px; transform: rotate(-10deg); }
+.bloom__card-flower[data-pos="tr"] { right: -52px; top: -66px; transform: rotate(10deg); }
+.bloom__card-flower[data-pos="bl"] { left: -52px; top: -62px; transform: rotate(-8deg); }
+.bloom__card-flower[data-pos="br"] { right: -52px; top: -62px; transform: rotate(8deg); }
 .bloom__card .bloom__glass { position: relative; z-index: 1; background: rgba(253, 251, 248, 0.88); padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 6px; }
 .bloom__num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--rose-deep); }
 .bloom__card-title { font-family: var(--font-serif); font-size: 1.38rem; font-weight: var(--fw-medium); line-height: 1.12; color: var(--ink); margin: 0; text-wrap: balance; }
@@ -614,7 +616,7 @@ main:focus { outline: none; }
 .bloom--mobile .bloom__head { position: relative; left: auto; top: auto; transform: none; width: auto; height: auto; border-radius: 0; background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; padding: 0; margin: 0 0 6px; z-index: auto; display: block; text-align: left; }
 .bloom--mobile .bloom__eyebrow, .bloom--mobile .bloom__title { position: relative; z-index: 1; }
 .bloom--mobile .bloom__title { font-size: clamp(2.1rem, 8.5vw, 2.75rem); line-height: 1.05; margin: 12px 0 0; max-width: 7ch; text-shadow: none; }
-.bloom--mobile .bloom__stem { position: absolute; top: 44px; right: -4px; width: clamp(88px, 26vw, 116px); z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); filter: drop-shadow(0 12px 20px rgba(46, 42, 40, 0.13)); }
+.bloom--mobile .bloom__stem { position: absolute; top: 30px; right: 2px; width: clamp(100px, 30vw, 136px); z-index: 0; pointer-events: none; transform: rotate(6deg); filter: drop-shadow(0 12px 20px rgba(46, 42, 40, 0.13)); }
 .bloom--mobile .bloom__cards { position: static; inset: auto; display: block; z-index: auto; margin-top: 26px; padding: 0; }
 .bloom--mobile .bloom__card { position: static; width: 100%; left: auto; right: auto; top: auto; bottom: auto; opacity: 1; transform: none; filter: none; border-top: 1px solid var(--border-hairline); }
 .bloom--mobile .bloom__card:last-child { border-bottom: 1px solid var(--border-hairline); }

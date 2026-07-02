@@ -45,3 +45,8 @@ Flower*.png
 
 # design prototypes (local only)
 public/bloom-prototypes*.html
+
+# raw client asset sources (converted to public/elements)
+newflowers-assets/
+daisies1.png
+lillyofthevalley*.webp
