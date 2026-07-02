@@ -33,28 +33,31 @@ type Flower = {
   flip?: boolean;
 };
 
+// Every plant is anchored so its root/stem end runs OFF-frame (bottom-anchored
+// deep enough, or rotated so the base points at the nearest screen edge) — no
+// painted roots or cut stems ever float over open cream.
 const FLOWERS: Flower[] = [
   // LEFT cluster: sakura sweeping from the top corner, lily-of-the-valley
-  // bouquet grounding the bottom, pressed daisies + a butterfly as accents.
-  { side: "l", src: "sakura", layer: "front", w: "42vh", pos: { left: "-11vw", top: "-11vh" }, rot: -10, par: 16, dx: -180, dy: -50, delay: 0.04, dur: 7.6, sway: "16% 20%" },
-  { side: "l", src: "lily-1", layer: "front", w: "34vh", pos: { left: "-5vw", bottom: "-7vh" }, rot: -5, par: 20, dx: -200, dy: 70, delay: 0.0, dur: 7.2, lead: true },
-  { side: "l", src: "daisies", layer: "mid", w: "17vh", pos: { left: "1vw", top: "38%" }, rot: 10, par: 9, dx: -120, dy: 40, delay: 0.18, dur: 8.2 },
-  { side: "l", src: "butterfly-blue", layer: "mid", w: "9vh", pos: { left: "12vw", top: "20%" }, rot: -8, par: 14, dx: -150, dy: -30, delay: 0.3, dur: 6.4, sway: "50% 50%" },
+  // bouquet grounding the bottom, pressed daisies leaning in from the edge.
+  { side: "l", src: "sakura", layer: "front", w: "50vh", pos: { left: "-12vw", top: "-13vh" }, rot: -10, par: 16, dx: -180, dy: -50, delay: 0.04, dur: 7.6, sway: "16% 20%" },
+  { side: "l", src: "lily-1", layer: "front", w: "42vh", pos: { left: "-7vw", bottom: "-14vh" }, rot: -5, par: 20, dx: -200, dy: 70, delay: 0.0, dur: 7.2, lead: true },
+  { side: "l", src: "daisies", layer: "mid", w: "24vh", pos: { left: "-9vw", top: "36%" }, rot: 78, par: 9, dx: -120, dy: 40, delay: 0.18, dur: 8.2, sway: "50% 88%" },
+  { side: "l", src: "butterfly-blue", layer: "mid", w: "10vh", pos: { left: "13vw", top: "19%" }, rot: -8, par: 14, dx: -150, dy: -30, delay: 0.3, dur: 6.4, sway: "50% 50%" },
 
-  // RIGHT cluster: mirrored sakura up top, daisies in the bottom corner,
-  // a lily sprig mid-edge and the red butterfly drifting low.
-  { side: "r", src: "sakura", layer: "front", w: "44vh", pos: { right: "-12vw", top: "-10vh" }, rot: 10, par: 17, dx: 190, dy: -55, delay: 0.08, dur: 7.9, flip: true, sway: "84% 20%" },
-  { side: "r", src: "daisies", layer: "front", w: "24vh", pos: { right: "-4vw", bottom: "-6vh" }, rot: -8, par: 19, dx: 185, dy: 66, delay: 0.12, dur: 7.4, flip: true, lead: true },
-  { side: "r", src: "lily-2", layer: "mid", w: "22vh", pos: { right: "0vw", top: "42%" }, rot: 8, par: 12, dx: 150, dy: 40, delay: 0.2, dur: 8.0 },
-  { side: "r", src: "butterfly-red", layer: "mid", w: "8vh", pos: { right: "10vw", top: "60%" }, rot: 6, par: 10, dx: 130, dy: 30, delay: 0.34, dur: 6.8, sway: "50% 50%" },
+  // RIGHT cluster: mirrored sakura up top, daisies deep in the bottom corner,
+  // a lily sprig leaning in from the edge and the red butterfly drifting low.
+  { side: "r", src: "sakura", layer: "front", w: "52vh", pos: { right: "-13vw", top: "-12vh" }, rot: 10, par: 17, dx: 190, dy: -55, delay: 0.08, dur: 7.9, flip: true, sway: "84% 20%" },
+  { side: "r", src: "daisies", layer: "front", w: "30vh", pos: { right: "-6vw", bottom: "-13vh" }, rot: -8, par: 19, dx: 185, dy: 66, delay: 0.12, dur: 7.4, flip: true, lead: true },
+  { side: "r", src: "lily-2", layer: "mid", w: "27vh", pos: { right: "-9vw", top: "36%" }, rot: -75, par: 12, dx: 150, dy: 40, delay: 0.2, dur: 8.0, sway: "50% 88%" },
+  { side: "r", src: "butterfly-red", layer: "mid", w: "9vh", pos: { right: "12vw", top: "62%" }, rot: 6, par: 10, dx: 130, dy: 30, delay: 0.34, dur: 6.8, sway: "50% 50%" },
 ];
 
-// Phone arrangement: lily bouquet + daisies in the bottom corners, a small
-// sakura spray up top and one butterfly. Airy, headline stays clear.
+// Phone arrangement: lily bouquet + daisies anchored deep in the bottom
+// corners (root ends off-screen), sakura tucked at the top and one butterfly.
 const MOBILE_FLOWERS: Flower[] = [
-  { side: "l", src: "lily-1", layer: "front", w: "26vh", pos: { left: "-13vw", bottom: "-5vh" }, rot: -4, par: 12, dx: -120, dy: 60, delay: 0.02, dur: 7.2, lead: true },
-  { side: "r", src: "daisies", layer: "front", w: "21vh", pos: { right: "-9vw", bottom: "-4vh" }, rot: -6, par: 12, dx: 120, dy: 58, delay: 0.08, dur: 7.5, flip: true, lead: true },
-  { side: "r", src: "sakura", layer: "front", w: "26vh", pos: { right: "-22vw", top: "-8vh" }, rot: 8, par: 10, dx: 130, dy: -40, delay: 0.14, dur: 7.8, flip: true, lead: true, sway: "84% 20%" },
+  { side: "l", src: "lily-1", layer: "front", w: "30vh", pos: { left: "-15vw", bottom: "-11vh" }, rot: -4, par: 12, dx: -120, dy: 60, delay: 0.02, dur: 7.2, lead: true },
+  { side: "r", src: "daisies", layer: "front", w: "25vh", pos: { right: "-11vw", bottom: "-10vh" }, rot: -6, par: 12, dx: 120, dy: 58, delay: 0.08, dur: 7.5, flip: true, lead: true },
+  { side: "r", src: "sakura", layer: "front", w: "28vh", pos: { right: "-23vw", top: "-9vh" }, rot: 8, par: 10, dx: 130, dy: -40, delay: 0.14, dur: 7.8, flip: true, lead: true, sway: "84% 20%" },
   { side: "l", src: "butterfly-blue", layer: "mid", w: "7vh", pos: { left: "9vw", top: "24%" }, rot: -6, par: 14, dx: -110, dy: -24, delay: 0.3, dur: 6.4, sway: "50% 50%" },
 ];
 
