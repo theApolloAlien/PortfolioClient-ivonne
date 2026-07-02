@@ -506,12 +506,29 @@ main:focus { outline: none; }
    Work
    ============================================================ */
 .work { background: var(--warm-white); overflow: hidden; }
-/* Soft painted clouds drift behind the project cards. */
+/* Soft painted clouds drift slowly left-to-right behind the project cards.
+   Each starts fully off the left edge and traverses on a seamless linear loop;
+   negative delays scatter them mid-flight so the sky is populated on load.
+   Blurrier, fainter clouds sit deeper and drift slower for gentle parallax. */
 .work__sky { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.work__cloud { position: absolute; opacity: 0.5; }
-.work__cloud--a { width: clamp(300px, 34vw, 520px); top: 4%; right: -6%; }
-.work__cloud--b { width: clamp(240px, 26vw, 400px); top: 38%; left: -7%; opacity: 0.4; filter: blur(1px); }
-.work__cloud--c { width: clamp(200px, 20vw, 320px); bottom: 5%; right: 14%; opacity: 0.32; filter: blur(2px); }
+.work__cloud { position: absolute; left: -40vw; opacity: 0.5; will-change: transform; animation: cloud-drift 100s linear infinite; }
+@keyframes cloud-drift { from { transform: translateX(0); } to { transform: translateX(180vw); } }
+.work__cloud--a { width: clamp(300px, 34vw, 560px); top: 3%; animation-duration: 95s; animation-delay: -62s; }
+.work__cloud--b { width: clamp(240px, 26vw, 420px); top: 36%; opacity: 0.4; filter: blur(1px); animation-duration: 120s; animation-delay: -30s; }
+.work__cloud--c { width: clamp(190px, 20vw, 330px); top: 66%; opacity: 0.32; filter: blur(2px); animation-duration: 140s; animation-delay: -96s; }
+.work__cloud--d { width: clamp(260px, 29vw, 480px); top: 14%; opacity: 0.36; filter: blur(1.5px); animation-duration: 130s; animation-delay: -50s; }
+.work__cloud--e { width: clamp(150px, 16vw, 260px); top: 52%; opacity: 0.28; filter: blur(2.5px); animation-duration: 155s; animation-delay: -54s; }
+.work__cloud--f { width: clamp(220px, 24vw, 380px); top: 80%; opacity: 0.34; filter: blur(1px); animation-duration: 110s; animation-delay: -55s; }
+/* Reduced motion: no drift — rest the clouds at fixed, composed positions. */
+@media (prefers-reduced-motion: reduce) {
+  .work__cloud { animation: none !important; }
+  .work__cloud--a { left: auto; right: -6%; }
+  .work__cloud--b { left: -7%; }
+  .work__cloud--c { left: auto; right: 14%; }
+  .work__cloud--d { left: 30%; }
+  .work__cloud--e { left: 60%; }
+  .work__cloud--f { left: 12%; }
+}
 .work .container { position: relative; z-index: 1; }
 .work__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.25rem, 2.2vw, 1.75rem); }
 .work__grid .iw-reveal { height: 100%; }

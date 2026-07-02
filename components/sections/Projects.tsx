@@ -95,12 +95,17 @@ export function Projects() {
   return (
     <section id="work" className="work section">
       <div className="work__sky" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="work__cloud work__cloud--a" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="work__cloud work__cloud--b" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="work__cloud work__cloud--c" src="/elements/cloud.webp" alt="" loading="lazy" decoding="async" />
+        {["a", "b", "c", "d", "e", "f"].map((v) => (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            key={v}
+            className={`work__cloud work__cloud--${v}`}
+            src="/elements/cloud.webp"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        ))}
       </div>
       <div className="container">
         <div className="section__head">
