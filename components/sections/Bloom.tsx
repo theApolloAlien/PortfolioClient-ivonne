@@ -61,14 +61,6 @@ const FACETS = [
   },
 ];
 
-type Pos = { left?: string; right?: string; top?: string; bottom?: string };
-const POS: Pos[] = [
-  { left: "var(--bx)", top: "var(--bytop)" },
-  { right: "var(--bx)", top: "var(--bytop)" },
-  { right: "var(--bx)", bottom: "var(--bybot)" },
-  { left: "var(--bx)", bottom: "var(--bybot)" },
-];
-
 type Bloom = { src: string; x: number; y: number; s: number; rot: number; d: number; z: number; flip?: boolean };
 const BOUQUET: Bloom[] = [
   // back foliage
@@ -230,13 +222,7 @@ export function Bloom() {
         <div className="bloom__cards">
           {FACETS.map((f, i) => {
             const co = `clamp(0, calc((var(--p) - ${i * 0.12 + 0.06}) / 0.34), 1)`;
-            const style: CSSVars = {
-              "--co": co,
-              "--pl": POS[i].left ?? "auto",
-              "--pr": POS[i].right ?? "auto",
-              "--pt": POS[i].top ?? "auto",
-              "--pb": POS[i].bottom ?? "auto",
-            };
+            const style: CSSVars = { "--co": co };
             return (
               <div key={f.n} className="bloom__card" style={style}>
                 {view === "desktop" && (

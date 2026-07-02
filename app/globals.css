@@ -570,20 +570,26 @@ main:focus { outline: none; }
 .bloom__bouquet { position: absolute; inset: 0; z-index: 1; transform-origin: center 62%; transform: scale(calc(0.82 + 0.18 * var(--p))); opacity: calc(0.4 + 0.6 * var(--p)); will-change: transform, opacity; -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 93%); mask-image: linear-gradient(to bottom, #000 60%, transparent 93%); }
 .bloom__bloom { position: absolute; aspect-ratio: 1; overflow: hidden; transform-origin: center; will-change: transform, opacity; }
 .bloom__bloom img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block; filter: drop-shadow(0 14px 22px rgba(46, 42, 40, 0.12)); }
-.bloom__cards { position: absolute; inset: 0; z-index: 3; }
-.bloom__card { position: absolute; width: clamp(266px, 23vw, 324px); left: var(--pl, auto); right: var(--pr, auto); top: var(--pt, auto); bottom: var(--pb, auto); opacity: var(--co, 1); transform: translateY(calc((1 - var(--co, 1)) * 26px)); filter: blur(calc((1 - var(--co, 1)) * 5px)); will-change: transform, opacity; }
+/* Corner-framed card layer as a 2×2 grid: rows/columns can never overlap each
+   other, so taller card content compresses the gap instead of colliding. */
+.bloom__cards { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: min-content 1fr min-content; grid-template-rows: 1fr 1fr; row-gap: 16px; padding: var(--bytop) var(--bx) var(--bybot); }
+.bloom__card { position: relative; width: clamp(272px, 24vw, 352px); opacity: var(--co, 1); transform: translateY(calc((1 - var(--co, 1)) * 26px)); filter: blur(calc((1 - var(--co, 1)) * 5px)); will-change: transform, opacity; }
+.bloom__card:nth-child(1) { grid-column: 1; grid-row: 1; align-self: start; }
+.bloom__card:nth-child(2) { grid-column: 3; grid-row: 1; align-self: start; }
+.bloom__card:nth-child(3) { grid-column: 3; grid-row: 2; align-self: end; }
+.bloom__card:nth-child(4) { grid-column: 1; grid-row: 2; align-self: end; }
 .bloom__card-flower { position: absolute; width: clamp(420px, 30vw, 528px); aspect-ratio: 3 / 4; object-fit: contain; object-position: center top; z-index: 0; pointer-events: none; transform-origin: 50% 24%; filter: drop-shadow(0 16px 28px rgba(46, 42, 40, 0.16)); }
 .bloom__card-flower[data-pos="tl"] { left: -250px; top: -188px; transform: rotate(128deg); }
 .bloom__card-flower[data-pos="tr"] { right: -250px; top: -188px; transform: rotate(-128deg); }
 .bloom__card-flower[data-pos="bl"] { left: -250px; top: -150px; transform: rotate(52deg); }
 .bloom__card-flower[data-pos="br"] { right: -250px; top: -150px; transform: rotate(-52deg); }
 .bloom__card-flower[data-pos="bc"] { left: 50%; margin-left: -245px; top: -150px; transform: rotate(-30deg); }
-.bloom__card .bloom__glass { position: relative; z-index: 1; background: rgba(253, 251, 248, 0.88); padding: 22px 24px; display: flex; flex-direction: column; gap: 7px; }
+.bloom__card .bloom__glass { position: relative; z-index: 1; background: rgba(253, 251, 248, 0.88); padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 6px; }
 .bloom__num { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--rose-deep); }
-.bloom__card-title { font-family: var(--font-serif); font-size: 1.5rem; font-weight: var(--fw-medium); line-height: 1.12; color: var(--ink); margin: 0; text-wrap: balance; }
+.bloom__card-title { font-family: var(--font-serif); font-size: 1.38rem; font-weight: var(--fw-medium); line-height: 1.12; color: var(--ink); margin: 0; text-wrap: balance; }
 .bloom__kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; color: var(--ink-muted); }
-.bloom__points { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; max-width: 40ch; }
-.bloom__point { position: relative; padding-left: 15px; font-size: 0.95rem; line-height: 1.5; color: var(--ink-muted); text-wrap: pretty; }
+.bloom__points { list-style: none; margin: 7px 0 0; padding: 0; display: flex; flex-direction: column; gap: 5px; max-width: 40ch; }
+.bloom__point { position: relative; padding-left: 15px; font-size: 0.92rem; line-height: 1.45; color: var(--ink-muted); text-wrap: pretty; }
 .bloom__point::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; border-radius: 50%; background: var(--rose); opacity: 0.85; }
 .bloom__hint { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); opacity: calc(1 - var(--p) * 4); }
 .bloom__hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); }
@@ -593,7 +599,7 @@ main:focus { outline: none; }
 .bloom--static .bloom__title { text-shadow: none; }
 .bloom--static .bloom__bouquet-wrap { position: relative; overflow: hidden; left: auto; top: auto; transform: none; margin: 0 auto 3rem; width: min(86vw, 460px); height: min(82vw, 440px); }
 .bloom--static .bloom__bouquet { transform: none; opacity: 1; }
-.bloom--static .bloom__cards { position: static; inset: auto; display: flex; flex-direction: column; gap: 32px; max-width: 460px; margin-inline: auto; padding-inline: var(--gutter); }
+.bloom--static .bloom__cards { position: static; inset: auto; display: flex; flex-direction: column; gap: 32px; max-width: 460px; margin-inline: auto; padding: 0 var(--gutter); }
 .bloom--static .bloom__card { position: relative !important; width: 100%; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; opacity: 1 !important; transform: none !important; filter: none !important; }
 .bloom--static .bloom__hint { display: none; }
 .bloom--static .bloom__card-flower { width: clamp(132px, 32vw, 176px); top: -58px; margin-left: 0; transform: rotate(7deg); transform-origin: center; }
@@ -609,7 +615,7 @@ main:focus { outline: none; }
 .bloom--mobile .bloom__eyebrow, .bloom--mobile .bloom__title { position: relative; z-index: 1; }
 .bloom--mobile .bloom__title { font-size: clamp(2.1rem, 8.5vw, 2.75rem); line-height: 1.05; margin: 12px 0 0; max-width: 7ch; text-shadow: none; }
 .bloom--mobile .bloom__stem { position: absolute; top: 44px; right: -4px; width: clamp(88px, 26vw, 116px); z-index: 0; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); mask-image: linear-gradient(to bottom, #000 64%, transparent 96%); filter: drop-shadow(0 12px 20px rgba(46, 42, 40, 0.13)); }
-.bloom--mobile .bloom__cards { position: static; inset: auto; display: block; z-index: auto; margin-top: 26px; }
+.bloom--mobile .bloom__cards { position: static; inset: auto; display: block; z-index: auto; margin-top: 26px; padding: 0; }
 .bloom--mobile .bloom__card { position: static; width: 100%; left: auto; right: auto; top: auto; bottom: auto; opacity: 1; transform: none; filter: none; border-top: 1px solid var(--border-hairline); }
 .bloom--mobile .bloom__card:last-child { border-bottom: 1px solid var(--border-hairline); }
 .bloom--mobile .bloom__glass { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; border: 0; border-radius: 0; padding: 16px 0; display: grid; grid-template-columns: 26px 1fr; column-gap: 14px; align-items: start; }
