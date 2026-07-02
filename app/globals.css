@@ -580,7 +580,7 @@ main:focus { outline: none; }
 /* ============================================================
    Bloom: The fuller picture
    ============================================================ */
-.bloom { position: relative; height: 330vh; background: var(--cream); --bx: clamp(28px, 4.2vw, 92px); --bytop: clamp(116px, 16vh, 174px); --bybot: clamp(40px, 7vh, 84px); --by5: clamp(18px, 3.4vh, 44px); }
+.bloom { position: relative; height: 330vh; background: var(--cream); --bx: clamp(28px, 4.2vw, 92px); --bytop: clamp(116px, 16vh, 174px); --bybot: clamp(40px, 7vh, 84px); }
 .bloom__stage { position: sticky; top: 0; height: 100vh; min-height: 660px; overflow: hidden; }
 .bloom__head { position: absolute; top: clamp(16px, 4vh, 44px); left: 50%; --title-travel: clamp(80px, 16vh, 220px); transform: translateX(-50%) translateY(calc(var(--p, 0) * var(--title-travel))); will-change: transform; z-index: 4; display: flex; flex-direction: column; justify-content: center; gap: 9px; align-items: center; text-align: center; width: clamp(340px, 38vw, 480px); height: clamp(340px, 38vw, 480px); background: rgba(253, 251, 248, 0.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-radius: 50%; padding: 0 38px; box-shadow: 0 2px 32px rgba(232, 154, 147, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 .bloom__eyebrow { font-family: var(--font-mono); font-size: var(--fs-eyebrow); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; color: var(--text-accent); white-space: nowrap; }
@@ -588,7 +588,7 @@ main:focus { outline: none; }
 .bloom__title em { font-style: italic; font-weight: var(--fw-regular); color: var(--text-accent); }
 .bloom__bouquet-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 92vw; height: 98vh; z-index: 1; }
 .bloom__glow { position: absolute; inset: -12%; border-radius: 50%; background: radial-gradient(circle, rgba(243, 201, 206, 0.55) 0%, rgba(248, 221, 224, 0) 64%); opacity: calc(0.25 + 0.75 * var(--p)); z-index: 0; }
-.bloom__bouquet { position: absolute; inset: 0; z-index: 1; transform-origin: center 62%; transform: scale(calc(0.82 + 0.18 * var(--p))); opacity: calc(0.4 + 0.6 * var(--p)); will-change: transform, opacity; }
+.bloom__bouquet { position: absolute; inset: 0; z-index: 1; transform-origin: center 62%; transform: scale(calc(0.82 + 0.18 * var(--p))); opacity: calc(0.4 + 0.6 * var(--p)); will-change: transform, opacity; -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 67%); mask-image: linear-gradient(to bottom, #000 50%, transparent 67%); }
 .bloom__bloom { position: absolute; aspect-ratio: 1; overflow: hidden; transform-origin: center; will-change: transform, opacity; }
 .bloom__bloom img { width: 100%; height: 100%; object-fit: contain; object-position: center top; display: block; filter: drop-shadow(0 14px 22px rgba(46, 42, 40, 0.12)); }
 /* Corner-framed card layer as a 2×2 grid: rows/columns can never overlap each

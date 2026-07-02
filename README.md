@@ -37,7 +37,7 @@ components/
   motion/           Reveal, Petals, SmoothScroll
   sections/         Nav, Hero, About, Projects, Bloom, Skills, Contact
 public/
-  florals/real/*    17 transparent flower cut-outs
+  elements/*        watercolor florals + keepsake cut-outs (webp)
   brand/floret.svg  the six-petal mark
   ivonne-headshot.jpeg
 ```
@@ -61,6 +61,6 @@ Import the repo, framework preset **Next.js**, default build settings. No env va
   (drop the PDF in `public/` and update the `href` in `components/sections/Contact.tsx`).
 - **Project thumbnails** use botanical specimens on tinted panels; swap in real
   screenshots for KINGS Cup / Gamify / Splitly when available (`components/sections/Projects.tsx`).
-- Contact links are live: email `ivonnew0714@gmail.com`, Telegram `@ivnwjy`,
+- Contact links are live: email `ivonnew0714@gmail.com`,
   GitHub `Ivonne828`, LinkedIn `ivonnewijayaa`.
 ```
