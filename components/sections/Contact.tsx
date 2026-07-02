@@ -1,11 +1,31 @@
+"use client";
+
 import * as React from "react";
 import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { Petals } from "@/components/motion/Petals";
-import { Mail, Github, Linkedin, Telegram, ArrowUpRight, Floret } from "@/components/icons";
+import { Mail, Github, Linkedin, ArrowUpRight, Floret } from "@/components/icons";
+
+const EMAIL = "ivonnew0714@gmail.com";
 
 export function Contact() {
+  const [copied, setCopied] = React.useState(false);
+  const timer = React.useRef<number | undefined>(undefined);
+
+  // The mailto still opens the visitor's mail app; copying on the same click
+  // covers machines with no mail client configured.
+  const copyEmail = () => {
+    navigator.clipboard
+      ?.writeText(EMAIL)
+      .then(() => {
+        setCopied(true);
+        window.clearTimeout(timer.current);
+        timer.current = window.setTimeout(() => setCopied(false), 2400);
+      })
+      .catch(() => {});
+  };
+
   return (
     <section id="contact" className="contact section">
       <Petals count={10} className="contact__petals" />
@@ -17,14 +37,15 @@ export function Contact() {
           Let&apos;s build <em>something together</em>.
         </Reveal>
         <Reveal className="contact__sub" delay={150}>
-          Open to internships and collaborations. The fastest way to reach me is email or Telegram.
+          Open to internships and collaborations. The fastest way to reach me is email.
         </Reveal>
 
         <Reveal className="contact__cta" delay={220}>
           <Button
             variant="filled"
             size="lg"
-            href="mailto:ivonnew0714@gmail.com"
+            href={`mailto:${EMAIL}`}
+            onClick={copyEmail}
             icon={<Mail />}
             iconPosition="leading"
           >
@@ -42,6 +63,11 @@ export function Contact() {
           </Button>
         </Reveal>
 
+        {/* Outside the Reveal: its will-change/transform would trap position:fixed. */}
+        <span className={`contact__toast ${copied ? "is-on" : ""}`} role="status" aria-live="polite">
+          {copied ? `${EMAIL} copied to clipboard` : ""}
+        </span>
+
         <Reveal className="contact__socials" delay={280}>
           <IconButton
             variant="glass"
@@ -58,14 +84,6 @@ export function Contact() {
             target="_blank"
             rel="noreferrer"
             icon={<Linkedin />}
-          />
-          <IconButton
-            variant="glass"
-            label="Telegram"
-            href="https://t.me/ivnwjy"
-            target="_blank"
-            rel="noreferrer"
-            icon={<Telegram />}
           />
         </Reveal>
       </div>
