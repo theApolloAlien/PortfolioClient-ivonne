@@ -521,7 +521,7 @@ main:focus { outline: none; }
 .work__cloud--f { width: clamp(220px, 24vw, 380px); top: 80%; opacity: 0.34; filter: blur(1px); animation-duration: 110s; animation-delay: -55s; }
 /* Reduced motion: no drift — rest the clouds at fixed, composed positions. */
 @media (prefers-reduced-motion: reduce) {
-  .work__cloud { animation: none !important; }
+  .work__cloud { animation: none !important; will-change: auto; }
   .work__cloud--a { left: auto; right: -6%; }
   .work__cloud--b { left: -7%; }
   .work__cloud--c { left: auto; right: 14%; }
@@ -625,7 +625,7 @@ main:focus { outline: none; }
 .bloom--static .bloom__hint { display: none; }
 .bloom--static .bloom__card-flower { width: clamp(132px, 32vw, 176px); top: -58px; margin-left: 0; transform: rotate(7deg); transform-origin: center; }
 .bloom--static .bloom__card-flower[data-pos="tl"], .bloom--static .bloom__card-flower[data-pos="bl"] { left: -14px; right: auto; }
-.bloom--static .bloom__card-flower[data-pos="tr"], .bloom--static .bloom__card-flower[data-pos="br"], .bloom--static .bloom__card-flower[data-pos="bc"] { left: auto; right: -14px; }
+.bloom--static .bloom__card-flower[data-pos="tr"], .bloom--static .bloom__card-flower[data-pos="br"] { left: auto; right: -14px; }
 
 /* Phones/tablets (<=1024px): calm editorial layout — no pin, no bouquet. A
    left-aligned title with one calla tucked at the corner, then the facets as a

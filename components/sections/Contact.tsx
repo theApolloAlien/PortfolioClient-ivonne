@@ -26,6 +26,8 @@ export function Contact() {
       .catch(() => {});
   };
 
+  React.useEffect(() => () => window.clearTimeout(timer.current), []);
+
   return (
     <section id="contact" className="contact section">
       <Petals count={10} className="contact__petals" />

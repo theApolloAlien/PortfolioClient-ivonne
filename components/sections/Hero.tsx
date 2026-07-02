@@ -29,7 +29,6 @@ type Flower = {
   delay: number;
   dur: number;
   sway?: string;
-  lead?: boolean;
   flip?: boolean;
 };
 
@@ -40,14 +39,14 @@ const FLOWERS: Flower[] = [
   // LEFT cluster: sakura sweeping from the top corner, lily-of-the-valley
   // bouquet grounding the bottom, pressed daisies leaning in from the edge.
   { side: "l", src: "sakura", layer: "front", w: "50vh", pos: { left: "-12vw", top: "-13vh" }, rot: -10, par: 16, dx: -180, dy: -50, delay: 0.04, dur: 7.6, sway: "16% 20%" },
-  { side: "l", src: "lily-1", layer: "front", w: "42vh", pos: { left: "-7vw", bottom: "-14vh" }, rot: -5, par: 20, dx: -200, dy: 70, delay: 0.0, dur: 7.2, lead: true },
+  { side: "l", src: "lily-1", layer: "front", w: "42vh", pos: { left: "-7vw", bottom: "-14vh" }, rot: -5, par: 20, dx: -200, dy: 70, delay: 0.0, dur: 7.2 },
   { side: "l", src: "daisies", layer: "mid", w: "24vh", pos: { left: "-9vw", top: "36%" }, rot: 78, par: 9, dx: -120, dy: 40, delay: 0.18, dur: 8.2, sway: "50% 88%" },
   { side: "l", src: "butterfly-blue", layer: "mid", w: "10vh", pos: { left: "13vw", top: "19%" }, rot: -8, par: 14, dx: -150, dy: -30, delay: 0.3, dur: 6.4, sway: "50% 50%" },
 
   // RIGHT cluster: mirrored sakura up top, daisies deep in the bottom corner,
   // a lily sprig leaning in from the edge and the red butterfly drifting low.
   { side: "r", src: "sakura", layer: "front", w: "52vh", pos: { right: "-13vw", top: "-12vh" }, rot: 10, par: 17, dx: 190, dy: -55, delay: 0.08, dur: 7.9, flip: true, sway: "84% 20%" },
-  { side: "r", src: "daisies", layer: "front", w: "30vh", pos: { right: "-6vw", bottom: "-13vh" }, rot: -8, par: 19, dx: 185, dy: 66, delay: 0.12, dur: 7.4, flip: true, lead: true },
+  { side: "r", src: "daisies", layer: "front", w: "30vh", pos: { right: "-6vw", bottom: "-13vh" }, rot: -8, par: 19, dx: 185, dy: 66, delay: 0.12, dur: 7.4, flip: true },
   { side: "r", src: "lily-2", layer: "mid", w: "27vh", pos: { right: "-9vw", top: "36%" }, rot: -75, par: 12, dx: 150, dy: 40, delay: 0.2, dur: 8.0, sway: "50% 88%" },
   { side: "r", src: "butterfly-red", layer: "mid", w: "9vh", pos: { right: "12vw", top: "62%" }, rot: 6, par: 10, dx: 130, dy: 30, delay: 0.34, dur: 6.8, sway: "50% 50%" },
 ];
@@ -55,9 +54,9 @@ const FLOWERS: Flower[] = [
 // Phone arrangement: lily bouquet + daisies anchored deep in the bottom
 // corners (root ends off-screen), sakura tucked at the top and one butterfly.
 const MOBILE_FLOWERS: Flower[] = [
-  { side: "l", src: "lily-1", layer: "front", w: "30vh", pos: { left: "-15vw", bottom: "-11vh" }, rot: -4, par: 12, dx: -120, dy: 60, delay: 0.02, dur: 7.2, lead: true },
-  { side: "r", src: "daisies", layer: "front", w: "25vh", pos: { right: "-11vw", bottom: "-10vh" }, rot: -6, par: 12, dx: 120, dy: 58, delay: 0.08, dur: 7.5, flip: true, lead: true },
-  { side: "r", src: "sakura", layer: "front", w: "28vh", pos: { right: "-23vw", top: "-9vh" }, rot: 8, par: 10, dx: 130, dy: -40, delay: 0.14, dur: 7.8, flip: true, lead: true, sway: "84% 20%" },
+  { side: "l", src: "lily-1", layer: "front", w: "30vh", pos: { left: "-15vw", bottom: "-11vh" }, rot: -4, par: 12, dx: -120, dy: 60, delay: 0.02, dur: 7.2 },
+  { side: "r", src: "daisies", layer: "front", w: "25vh", pos: { right: "-11vw", bottom: "-10vh" }, rot: -6, par: 12, dx: 120, dy: 58, delay: 0.08, dur: 7.5, flip: true },
+  { side: "r", src: "sakura", layer: "front", w: "28vh", pos: { right: "-23vw", top: "-9vh" }, rot: 8, par: 10, dx: 130, dy: -40, delay: 0.14, dur: 7.8, flip: true, sway: "84% 20%" },
   { side: "l", src: "butterfly-blue", layer: "mid", w: "7vh", pos: { left: "9vw", top: "24%" }, rot: -6, par: 14, dx: -110, dy: -24, delay: 0.3, dur: 6.4, sway: "50% 50%" },
 ];
 
@@ -82,7 +81,6 @@ function HeroFlower({ f, mobile }: { f: Flower; mobile?: boolean }) {
     <div
       className={`hero-fl hero-fl--${f.layer} hero-fl--${f.side}${mobile ? " hero-fl--m" : ""}`}
       style={outer}
-      data-lead={f.lead ? "" : undefined}
     >
       <div className="hero-fl__inner" style={{ animationDelay: `${f.delay || 0}s` }}>
         <div className="hero-fl__sway" style={sway}>

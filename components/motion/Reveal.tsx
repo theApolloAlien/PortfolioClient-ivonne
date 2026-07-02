@@ -55,8 +55,10 @@ export function Reveal({ children, as: Tag = "div", delay = 0, className = "", s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Once settled, drop will-change too: a lingering will-change keeps a
+  // containing block that would trap position:fixed descendants.
   const settledStyle: React.CSSProperties | null = settled
-    ? { transition: "none", opacity: 1, transform: "none", filter: "none" }
+    ? { transition: "none", opacity: 1, transform: "none", filter: "none", willChange: "auto" }
     : null;
 
   const Component = Tag as React.ElementType;

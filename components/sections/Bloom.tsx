@@ -162,21 +162,29 @@ export function Bloom() {
       });
     };
 
+    // Only re-wire layout/listeners/observers when the breakpoint actually
+    // changes — plain resize events (iOS fires them while scrolling, as the URL
+    // bar shows/hides) just refresh --p on desktop.
+    let mode = "";
     const setup = () => {
       const reduce = mqReduce.matches;
       const narrow = mqNarrow.matches;
-      setView(narrow ? "mobile" : "desktop");
-      sec.classList.toggle("bloom--mobile", narrow);
-      sec.classList.toggle("bloom--static", reduce && !narrow);
-      window.removeEventListener("scroll", onScroll);
-      if (narrow || reduce) {
-        sec.style.setProperty("--p", "1");
-      } else {
-        window.addEventListener("scroll", onScroll, { passive: true });
-        compute();
+      const nextMode = `${narrow}|${reduce}`;
+      if (nextMode !== mode) {
+        mode = nextMode;
+        setView(narrow ? "mobile" : "desktop");
+        sec.classList.toggle("bloom--mobile", narrow);
+        sec.classList.toggle("bloom--static", reduce && !narrow);
+        window.removeEventListener("scroll", onScroll);
+        if (narrow || reduce) {
+          sec.style.setProperty("--p", "1");
+        } else {
+          window.addEventListener("scroll", onScroll, { passive: true });
+        }
+        // reveal only for the mobile editorial layout (and only if motion is allowed)
+        setupReveal(narrow && !reduce);
       }
-      // reveal only for the mobile editorial layout (and only if motion is allowed)
-      setupReveal(narrow && !reduce);
+      if (!narrow && !reduce) compute();
     };
     setup();
     window.addEventListener("resize", setup);
@@ -223,7 +231,7 @@ export function Bloom() {
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     className="bloom__card-flower"
-                    data-pos={["tl", "tr", "br", "bl", "bc"][i]}
+                    data-pos={["tl", "tr", "br", "bl"][i]}
                     src={`${A}${f.flower}.webp`}
                     loading="lazy"
                     decoding="async"
